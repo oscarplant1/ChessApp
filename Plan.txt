@@ -1,0 +1,30 @@
+
+Classes: Board, Piece
+
+
+
+Board:
+
+Attributes:
+MoveCounter int
+WhiteKingPosition [int,int]
+BlackKingPosition [int,int]     
+
+Methods:
+MovePiece() 
+PlacePiece()
+RemovePiece(),
+
+--------------------------------------------------------
+
+Piece: 
+
+Attributes:
+IsWhite bool
+IsChecking bool
+PieceType char
+MovesDone int							  
+
+Methods:
+Get and Set for all attributes
+
