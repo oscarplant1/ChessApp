@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +12,11 @@ namespace Chess
     {
         //Attributes
         private int MoveCounter = 0;
+        private int[] PieceToMove = [8, 8];
         private int[] WhiteKingPosition = [7, 4];
         private int[] BlackKingPosition = [0, 4];
         public Piece[,] Grid = new Piece [8, 8];
+        private Piece BlankPiece = new Piece(false, 'X');
 
         //Get Methods
         public int GetMoveCounter()
@@ -30,7 +34,22 @@ namespace Chess
             return BlackKingPosition;
         }
 
-        //Set Positions
+        public int[] GetPieceToMove()
+        {
+            return PieceToMove;
+        }
+
+        public char GetPieceTypeAt(int X, int Y)
+        {
+            return Grid[X, Y].GetPieceType();
+        }
+
+        public bool GetIsWhiteAt(int X, int Y)
+        {
+            return Grid[X, Y].GetIsWhite();
+        }
+
+        //Set Methods
         public void SetMoveCounter(int Moves)
         {
             MoveCounter = Moves;
@@ -46,7 +65,24 @@ namespace Chess
             BlackKingPosition = BlackKing;
         }
 
+        public void SetPieceToMove(int[] Piece)
+        {
+            PieceToMove = Piece;
+        }
+
         //Methods
+
+        public bool IsSquareBlank(int X, int Y)
+        {
+            if (Grid[X, Y].GetPieceType() == 'X')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void SetBoard()
         {
             //Set all pieces to empty black pieces
@@ -123,10 +159,67 @@ namespace Chess
                 {
                     Console.Write(Grid[i, j].GetPieceType() + " ");
                     Console.Write(Grid[i, j].GetIsWhite() + ", ");
-
+                    
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("--------------------------------------------------------------");
+        }
+
+        public void UpdateBoard()
+        {
+            for (int i = 0; i < Grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < Grid.GetLength(1); j++)
+                {
+                    Piece CurrentPiece = Grid[i, j];
+
+                    switch (CurrentPiece.GetPieceType())
+                    {
+                        case 'X':
+                            break;
+
+                        case 'P':
+                            break;
+
+                        case 'R':
+                            break;
+
+                        case 'N':
+                            break;
+
+                        case 'B':
+                            break;
+
+                        case 'Q':
+                            break;
+
+                        case 'K':
+                            break;
+                    }
+                }
+            }
+        }
+
+        public void MovePiece(int[] Piece, int[] Destination)
+        {
+            //Console.Write(Piece[0] + " " + Piece[1]);
+            //Console.WriteLine();
+            //Console.Write(Destination[0] + " " + Destination[1]);
+
+            Piece SelectedPiece = Grid[Piece[0],Piece[1]];
+            Piece TargetSquare = Grid[Destination[0], Destination[1]];
+            
+            if (SelectedPiece.GetIsWhite() != TargetSquare.GetIsWhite() || TargetSquare.GetPieceType() == 'X')
+            {
+                Grid[Piece[0], Piece[1]] = BlankPiece;
+                Grid[Destination[0], Destination[1]] = SelectedPiece;
+            }
+            
+            TestGrid();
+
+            PieceToMove = [8, 8];
+
         }
 
 
