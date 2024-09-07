@@ -12,7 +12,7 @@ namespace Chess
     {
         //Attributes
         private int MoveCounter = 0;
-        private int[] PieceToMove = [8, 8];
+        private int[] PieceToMove = [8, 8]; //Use [8,8] as a null variable as grid doesn't go past [7,7]
         private int[] WhiteKingPosition = [7, 4];
         private int[] BlackKingPosition = [0, 4];
         public Piece[,] Grid = new Piece [8, 8];
@@ -39,6 +39,7 @@ namespace Chess
             return PieceToMove;
         }
 
+        //Get Methods for Piece objects at chosen square
         public char GetPieceTypeAt(int X, int Y)
         {
             return Grid[X, Y].GetPieceType();
@@ -60,7 +61,7 @@ namespace Chess
             WhiteKingPosition = WhiteKing;
         }
 
-        public void SetBlackPosition(int[] BlackKing)
+        public void SetBlackKingPosition(int[] BlackKing)
         {
             BlackKingPosition = BlackKing;
         }
@@ -83,6 +84,8 @@ namespace Chess
                 return false;
             }
         }
+
+        //Sets board with Pieces in starting positions
         public void SetBoard()
         {
             //Set all pieces to empty black pieces
@@ -149,6 +152,8 @@ namespace Chess
             Grid[7, 4].SetPieceType('K');
             Grid[7,4].SetIsWhite(true);
         }
+
+        //Outputs current board state to console - Debugging only
         public void TestGrid()
         {
             for (int i = 0; i < Grid.GetLength(0); i++)
@@ -166,47 +171,8 @@ namespace Chess
             Console.WriteLine("--------------------------------------------------------------");
         }
 
-        public void UpdateBoard()
-        {
-            for (int i = 0; i < Grid.GetLength(0); i++)
-            {
-                for (int j = 0; j < Grid.GetLength(1); j++)
-                {
-                    Piece CurrentPiece = Grid[i, j];
-
-                    switch (CurrentPiece.GetPieceType())
-                    {
-                        case 'X':
-                            break;
-
-                        case 'P':
-                            break;
-
-                        case 'R':
-                            break;
-
-                        case 'N':
-                            break;
-
-                        case 'B':
-                            break;
-
-                        case 'Q':
-                            break;
-
-                        case 'K':
-                            break;
-                    }
-                }
-            }
-        }
-
         public void MovePiece(int[] Piece, int[] Destination)
         {
-            //Console.Write(Piece[0] + " " + Piece[1]);
-            //Console.WriteLine();
-            //Console.Write(Destination[0] + " " + Destination[1]);
-
             Piece SelectedPiece = Grid[Piece[0],Piece[1]];
             Piece TargetSquare = Grid[Destination[0], Destination[1]];
             
@@ -215,8 +181,6 @@ namespace Chess
                 Grid[Piece[0], Piece[1]] = BlankPiece;
                 Grid[Destination[0], Destination[1]] = SelectedPiece;
             }
-            
-            //TestGrid();
 
             PieceToMove = [8, 8];
 

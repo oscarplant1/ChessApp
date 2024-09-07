@@ -5,27 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="900">
-    <Grid x:Name="MyBoard" Margin="220,20,280,120" RenderTransformOrigin="0.503,0.499">
+        Title="MainWindow" Height="900" Width="1600">
+    <Grid x:Name="MyBoard" Margin="440,40,440,24" RenderTransformOrigin="0.503,0.499">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="90"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="90"/>
         </Grid.RowDefinitions>
     </Grid>
 </Window>

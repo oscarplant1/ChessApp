@@ -17,14 +17,11 @@ namespace ChessApp
 {
     public partial class MainWindow : Window
     {
-        // Create the Grid
-
-
+        // Create the Board object
         Board NewBoard = new Board();
 
         private int currentX = 0;
         private int currentY = 0;
-
 
         public MainWindow()
         {
@@ -33,12 +30,7 @@ namespace ChessApp
             UpdateBoard();
         }
 
-
-        //Creating Board Visual
-
-        //Adding Buttons
-
-        //Adding Images
+        //Creating image object for each piece, black and white
         private Image CreateBlackPawn()
         {
             Image BlackPawn = new Image();
@@ -159,6 +151,7 @@ namespace ChessApp
             return WhiteKing;
         }
 
+        //Function to convert hex code into brush colour
         public SolidColorBrush GetColorFromHexa(string hexaColor)
         {
             byte R = Convert.ToByte(hexaColor.Substring(1, 2), 16);
@@ -168,6 +161,8 @@ namespace ChessApp
             return scb;
         }
 
+
+        //Method to refresh the current board graphic
         public void UpdateBoard()
         {
             ClearBoard();
@@ -176,6 +171,13 @@ namespace ChessApp
             AddButtons();
         }
 
+        //Clears the predefined 8x8 grid
+        public void ClearBoard()
+        {
+            MyBoard.Children.Clear();
+        }
+
+        //Add coloured StackPanels to the predefined 8x8 grid
         private void AddStackPanels()
         {
             for (int i = 0; i < 8; i++)
@@ -200,6 +202,7 @@ namespace ChessApp
             }
         }
 
+        //Adds the predefined piece images to the board graphic
         private void AddImages()
         {
             for (int i = 0; i < 8; i++)
@@ -274,6 +277,25 @@ namespace ChessApp
             }
         }
 
+        //Method used by AddImages() to add an image object to a chosen grid spot
+        public void AddImage(Func<Image> MethodName, int X, int Y)
+        {
+            StackPanel Stack = new StackPanel();
+            Image newImage = MethodName();
+
+            newImage.Height = 90;
+            newImage.Width = 90;
+
+            Stack.Children.Add(newImage);
+            Stack.SetValue(Grid.RowProperty, X);
+            Stack.SetValue(Grid.ColumnProperty, Y);
+            Stack.Height = 90;
+            Stack.Width = 90;
+
+            MyBoard.Children.Add(Stack);
+        }
+
+        //Adds transparent buttons to every grid spot that all have a corresponding function below
         private void AddButtons()
         {
             for (int i = 0; i < 8; i++)
@@ -522,33 +544,18 @@ namespace ChessApp
                     Stack.Children.Add(button);
                     Stack.SetValue(Grid.RowProperty, i);
                     Stack.SetValue(Grid.ColumnProperty, j);
-                    Stack.Height = 45;
-                    Stack.Width = 45;
+                    Stack.Height = 90;
+                    Stack.Width = 90;
                     button.Opacity = 0;
-                    button.Height = 45;
-                    button.Width = 45;
+                    button.Height = 90;
+                    button.Width = 90;
 
                     MyBoard.Children.Add(Stack);
                 }
             }
         }
 
-        public void AddImage(Func<Image> MethodName, int X, int Y)
-        {
-            StackPanel Stack = new StackPanel();
-            Image newImage = MethodName();
 
-            Stack.Children.Add(newImage);
-            Stack.SetValue(Grid.RowProperty, X);
-            Stack.SetValue(Grid.ColumnProperty, Y);
-
-            MyBoard.Children.Add(Stack);
-        }
-
-        public void ClearBoard()
-        {
-            MyBoard.Children.Clear();
-        }
 
         //Button Control
         private void ifSquareClicked(int currentX, int currentY)
