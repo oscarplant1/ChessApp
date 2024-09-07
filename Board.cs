@@ -216,7 +216,7 @@ namespace Chess
                 Grid[Destination[0], Destination[1]] = SelectedPiece;
             }
             
-            TestGrid();
+            //TestGrid();
 
             PieceToMove = [8, 8];
 

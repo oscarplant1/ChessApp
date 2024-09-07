@@ -10,170 +10,547 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.CompilerServices;
+using System.Diagnostics.Eventing.Reader;
 
 namespace ChessApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        // Create the Grid
+
+
         Board NewBoard = new Board();
+
         private int currentX = 0;
         private int currentY = 0;
+
+
         public MainWindow()
         {
-            //Console.WriteLine(NewBoard.GetBlackKingPosition()[0]);
-            //Console.WriteLine(NewBoard.GetBlackKingPosition()[1]);
-
-            NewBoard.SetBoard();
-            NewBoard.TestGrid();
-            UpdateGrid();
             InitializeComponent();
+            NewBoard.SetBoard();
+            UpdateBoard();
         }
 
-        private void UpdateGrid()
+
+        //Creating Board Visual
+
+        //Adding Buttons
+
+        //Adding Images
+        private Image CreateBlackPawn()
         {
-            for (int rowIndex = 0; rowIndex < 7; rowIndex++)
+            Image BlackPawn = new Image();
+            BlackPawn.Width = 40;
+            BlackPawn.Height = 40;
+            ImageSource BlackPawnImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-pawn.png"));
+            BlackPawn.Source = BlackPawnImage;
+            return BlackPawn;
+        }
+
+        private Image CreateBlackRook()
+        {
+            Image BlackRook = new Image();
+            BlackRook.Width = 40;
+            BlackRook.Height = 40;
+            ImageSource BlackRookImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-rook.png"));
+            BlackRook.Source = BlackRookImage;
+            return BlackRook;
+        }
+
+        private Image CreateBlackKnight()
+        {
+            Image BlackKnight = new Image();
+            BlackKnight.Width = 40;
+            BlackKnight.Height = 40;
+            ImageSource BlackKnightImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-knight.png"));
+            BlackKnight.Source = BlackKnightImage;
+            return BlackKnight;
+        }
+
+        private Image CreateBlackBishop()
+        {
+            Image BlackBishop = new Image();
+            BlackBishop.Width = 40;
+            BlackBishop.Height = 40;
+            ImageSource BlackBishopImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-bishop.png"));
+            BlackBishop.Source = BlackBishopImage;
+            return BlackBishop;
+        }
+
+        private Image CreateBlackQueen()
+        {
+            Image BlackQueen = new Image();
+            BlackQueen.Width = 40;
+            BlackQueen.Height = 40;
+            ImageSource BlackQueenImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-queen.png"));
+            BlackQueen.Source = BlackQueenImage;
+            return BlackQueen;
+        }
+
+        private Image CreateBlackKing()
+        {
+            Image BlackKing = new Image();
+            BlackKing.Width = 40;
+            BlackKing.Height = 40;
+            ImageSource BlackKingImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-king.png"));
+            BlackKing.Source = BlackKingImage;
+            return BlackKing;
+        }
+
+        private Image CreateWhitePawn()
+        {
+            Image WhitePawn = new Image();
+            WhitePawn.Width = 40;
+            WhitePawn.Height = 40;
+            ImageSource WhitePawnImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-pawn.png"));
+            WhitePawn.Source = WhitePawnImage;
+            return WhitePawn;
+        }
+
+        private Image CreateWhiteRook()
+        {
+            Image WhiteRook = new Image();
+            WhiteRook.Width = 40;
+            WhiteRook.Height = 40;
+            ImageSource WhiteRookImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-rook.png"));
+            WhiteRook.Source = WhiteRookImage;
+            return WhiteRook;
+        }
+
+        private Image CreateWhiteKnight()
+        {
+            Image WhiteKnight = new Image();
+            WhiteKnight.Width = 40;
+            WhiteKnight.Height = 40;
+            ImageSource WhiteKnightImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-knight.png"));
+            WhiteKnight.Source = WhiteKnightImage;
+            return WhiteKnight;
+        }
+
+        private Image CreateWhiteBishop()
+        {
+            Image WhiteBishop = new Image();
+            WhiteBishop.Width = 40;
+            WhiteBishop.Height = 40;
+            ImageSource WhiteBishopImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-bishop.png"));
+            WhiteBishop.Source = WhiteBishopImage;
+            return WhiteBishop;
+        }
+
+        private Image CreateWhiteQueen()
+        {
+            Image WhiteQueen = new Image();
+            WhiteQueen.Width = 40;
+            WhiteQueen.Height = 40;
+            ImageSource WhiteQueenImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-queen.png"));
+            WhiteQueen.Source = WhiteQueenImage;
+            return WhiteQueen;
+        }
+
+        private Image CreateWhiteKing()
+        {
+            Image WhiteKing = new Image();
+            WhiteKing.Width = 40;
+            WhiteKing.Height = 40;
+            ImageSource WhiteKingImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-king.png"));
+            WhiteKing.Source = WhiteKingImage;
+            return WhiteKing;
+        }
+
+        public SolidColorBrush GetColorFromHexa(string hexaColor)
+        {
+            byte R = Convert.ToByte(hexaColor.Substring(1, 2), 16);
+            byte G = Convert.ToByte(hexaColor.Substring(3, 2), 16);
+            byte B = Convert.ToByte(hexaColor.Substring(5, 2), 16);
+            SolidColorBrush scb = new SolidColorBrush(Color.FromArgb(0xFF, R, G, B));
+            return scb;
+        }
+
+        public void UpdateBoard()
+        {
+            ClearBoard();
+            AddStackPanels();
+            AddImages();
+            AddButtons();
+        }
+
+        private void AddStackPanels()
+        {
+            for (int i = 0; i < 8; i++)
             {
-                for (int columnIndex = 0; columnIndex < 7; columnIndex++)
+                for (int j = 0; j < 8; j++)
                 {
-                    char CurrentPieceType = NewBoard.GetPieceTypeAt(rowIndex, columnIndex);
-                    bool CurrentIsWhite = NewBoard.GetIsWhiteAt(rowIndex, columnIndex);
+                    StackPanel panel = new StackPanel();
+                    panel.SetValue(Grid.RowProperty, i);
+                    panel.SetValue(Grid.ColumnProperty, j);
 
-                    var imageSourceWP = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/white-pawn.jpg"));
-                    var whitepawn = new Image { Source = imageSourceWP };
-
-                    var imageSourceWR = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/white-rook.jpg"));
-                    var whiterook = new Image { Source = imageSourceWR };
-
-                    var imageSourceWN = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/white-knight.jpg"));
-                    var whiteknight = new Image { Source = imageSourceWN };
-
-                    var imageSourceWB = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/white-bishop.jpg"));
-                    var whitebishop = new Image { Source = imageSourceWB };
-
-                    var imageSourceWQ = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/white-queen.jpg"));
-                    var whitequeen = new Image { Source = imageSourceWQ };
-
-                    var imageSourceWK = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/white-king.jpg"));
-                    var whiteking = new Image { Source = imageSourceWK };
-
-                    var imageSourceBP = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/black-pawn.jpg"));
-                    var blackpawn = new Image { Source = imageSourceBP };
-
-                    var imageSourceBR = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/black-rook.jpg"));
-                    var blackrook = new Image { Source = imageSourceBR };
-
-                    var imageSourceBN = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/black-knight.jpg"));
-                    var blackknight = new Image { Source = imageSourceBN };
-
-                    var imageSourceBB = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/black-bishop.jpg"));
-                    var blackbishop = new Image { Source = imageSourceBB };
-
-                    var imageSourceBQ = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/black-queen.jpg"));
-                    var blackqueen = new Image { Source = imageSourceBQ };
-
-                    var imageSourceBK = new BitmapImage(new Uri("pack://application:,,,/ChessApp;component/Assets/black-king.jpg"));
-                    var blackking = new Image { Source = imageSourceBK };
-
-                    if (CurrentIsWhite)
+                    if (i % 2 == j % 2)
                     {
-                        switch (CurrentPieceType)
-                        {
-                            case 'X':
-                                break;
-
-                            case 'P':
-                                Grid.SetRow(whitepawn, rowIndex);
-                                Grid.SetColumn(whitepawn, columnIndex);
-                                Board.Children.Add(whitepawn);
-                                break;
-
-                            case 'R':
-                                Grid.SetRow(whiterook, rowIndex);
-                                Grid.SetColumn(whiterook, columnIndex);
-                                Board.Children.Add(whiterook);
-                                break;
-
-                            case 'N':
-                                Grid.SetRow(whiteknight, rowIndex);
-                                Grid.SetColumn(whiteknight, columnIndex);
-                                Board.Children.Add(whiteknight);
-                                break;
-
-                            case 'B':
-                                Grid.SetRow(whitebishop, rowIndex);
-                                Grid.SetColumn(whitebishop, columnIndex);
-                                Board.Children.Add(whitebishop);
-                                break;
-
-                            case 'Q':
-                                Grid.SetRow(whitequeen, rowIndex);
-                                Grid.SetColumn(whitequeen, columnIndex);
-                                Board.Children.Add(whitequeen);
-                                break;
-
-                            case 'K':
-                                Grid.SetRow(whiteking, rowIndex);
-                                Grid.SetColumn(whiteking, columnIndex);
-                                Board.Children.Add(whiteking);
-                                break;
-                        }
+                        panel.Background = GetColorFromHexa("#7092bf");
                     }
                     else
                     {
-                        switch (CurrentPieceType)
-                        {
-
-                            case 'X':
-                                break;
-
-                            case 'P':
-                                Grid.SetRow(blackpawn, rowIndex);
-                                Grid.SetColumn(blackpawn, columnIndex);
-                                Board.Children.Add(blackpawn);
-                                break;
-
-                            case 'R':
-                                Grid.SetRow(blackrook, rowIndex);
-                                Grid.SetColumn(blackrook, columnIndex);
-                                Board.Children.Add(blackrook);
-                                break;
-
-                            case 'N':
-                                Grid.SetRow(blackknight, rowIndex);
-                                Grid.SetColumn(blackknight, columnIndex);
-                                Board.Children.Add(blackknight);
-                                break;
-
-                            case 'B':
-                                Grid.SetRow(blackbishop, rowIndex);
-                                Grid.SetColumn(blackbishop, columnIndex);
-                                Board.Children.Add(blackbishop);
-                                break;
-
-                            case 'Q':
-                                Grid.SetRow(blackqueen, rowIndex);
-                                Grid.SetColumn(blackqueen, columnIndex);
-                                Board.Children.Add(blackqueen);
-                                break;
-
-                            case 'K':
-                                Grid.SetRow(blackking, rowIndex);
-                                Grid.SetColumn(blackking, columnIndex);
-                                Board.Children.Add(blackking);
-                                break;
-                        }
+                        panel.Background = GetColorFromHexa("#c7bfe6");
                     }
 
-                    //Grid.SetRow(image, rowIndex);
-                    //Grid.SetColumn(image, columnIndex);
-                    //Board.Children.Add(image);
+                    MyBoard.Children.Add(panel);
                 }
             }
         }
 
+        private void AddImages()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    char CurrentPieceType = NewBoard.GetPieceTypeAt(i, j);
+                    bool CurrentIsWhite = NewBoard.GetIsWhiteAt(i, j);
+
+                    if (CurrentPieceType != 'X')
+                    {
+                        if (CurrentIsWhite)
+                        {
+                            switch (CurrentPieceType)
+                            {
+                                case 'P':
+                                    AddImage(CreateWhitePawn, i, j);
+                                    break;
+
+                                case 'R':
+                                    AddImage(CreateWhiteRook, i, j);
+                                    break;
+
+                                case 'N':
+                                    AddImage(CreateWhiteKnight, i, j);
+                                    break;
+
+                                case 'B':
+                                    AddImage(CreateWhiteBishop, i, j);
+                                    break;
+
+                                case 'Q':
+                                    AddImage(CreateWhiteQueen, i, j);
+                                    break;
+
+                                case 'K':
+                                    AddImage(CreateWhiteKing, i, j);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (CurrentPieceType)
+                            {
+                                case 'P':
+                                    AddImage(CreateBlackPawn, i, j);
+                                    break;
+
+                                case 'R':
+                                    AddImage(CreateBlackRook, i, j);
+                                    break;
+
+                                case 'N':
+                                    AddImage(CreateBlackKnight, i, j);
+                                    break;
+
+                                case 'B':
+                                    AddImage(CreateBlackBishop, i, j);
+                                    break;
+
+                                case 'Q':
+                                    AddImage(CreateBlackQueen, i, j);
+                                    break;
+
+                                case 'K':
+                                    AddImage(CreateBlackKing, i, j);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AddButtons()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    StackPanel Stack = new StackPanel();
+                    Button button = new Button();
+
+                    switch (i)
+                    {
+                        case 0:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += zero_zero;
+                                    break;
+                                case 1:
+                                    button.Click += zero_one;
+                                    break;
+                                case 2:
+                                    button.Click += zero_two;
+                                    break;
+                                case 3:
+                                    button.Click += zero_three;
+                                    break;
+                                case 4: 
+                                    button.Click += zero_four;
+                                    break;
+                                case 5:
+                                    button.Click += zero_five;
+                                    break;
+                                case 6:
+                                    button.Click += zero_six;
+                                    break;
+                                case 7:
+                                    button.Click += zero_seven;
+                                    break;
+                            }
+                            break;
+                        case 1:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += one_zero;
+                                    break;
+                                case 1:
+                                    button.Click += one_one;
+                                    break;
+                                case 2:
+                                    button.Click += one_two;
+                                    break;
+                                case 3:
+                                    button.Click += one_three;
+                                    break;
+                                case 4:
+                                    button.Click += one_four;
+                                    break;
+                                case 5:
+                                    button.Click += one_five;
+                                    break;
+                                case 6:
+                                    button.Click += one_six;
+                                    break;
+                                case 7:
+                                    button.Click += one_seven;
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += two_zero;
+                                    break;
+                                case 1:
+                                    button.Click += two_one;
+                                    break;
+                                case 2:
+                                    button.Click += two_two;
+                                    break;
+                                case 3:
+                                    button.Click += two_three;
+                                    break;
+                                case 4:
+                                    button.Click += two_four;
+                                    break;
+                                case 5:
+                                    button.Click += two_five;
+                                    break;
+                                case 6:
+                                    button.Click += two_six;
+                                    break;
+                                case 7:
+                                    button.Click += two_seven;
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += three_zero;
+                                    break;
+                                case 1:
+                                    button.Click += three_one;
+                                    break;
+                                case 2:
+                                    button.Click += three_two;
+                                    break;
+                                case 3:
+                                    button.Click += three_three;
+                                    break;
+                                case 4:
+                                    button.Click += three_four;
+                                    break;
+                                case 5:
+                                    button.Click += three_five;
+                                    break;
+                                case 6:
+                                    button.Click += three_six;
+                                    break;
+                                case 7:
+                                    button.Click += three_seven;
+                                    break;
+                            }
+                            break;
+                        case 4:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += four_zero;
+                                    break;
+                                case 1:
+                                    button.Click += four_one;
+                                    break;
+                                case 2:
+                                    button.Click += four_two;
+                                    break;
+                                case 3:
+                                    button.Click += four_three;
+                                    break;
+                                case 4:
+                                    button.Click += four_four;
+                                    break;
+                                case 5:
+                                    button.Click += four_five;
+                                    break;
+                                case 6:
+                                    button.Click += four_six;
+                                    break;
+                                case 7:
+                                    button.Click += four_seven;
+                                    break;
+                            }
+                            break;
+                        case 5:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += five_zero;
+                                    break;
+                                case 1:
+                                    button.Click += five_one;
+                                    break;
+                                case 2:
+                                    button.Click += five_two;
+                                    break;
+                                case 3:
+                                    button.Click += five_three;
+                                    break;
+                                case 4:
+                                    button.Click += five_four;
+                                    break;
+                                case 5:
+                                    button.Click += five_five;
+                                    break;
+                                case 6:
+                                    button.Click += five_six;
+                                    break;
+                                case 7:
+                                    button.Click += five_seven;
+                                    break;
+                            }
+                            break;
+                        case 6:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += six_zero;
+                                    break;
+                                case 1:
+                                    button.Click += six_one;
+                                    break;
+                                case 2:
+                                    button.Click += six_two;
+                                    break;
+                                case 3:
+                                    button.Click += six_three;
+                                    break;
+                                case 4:
+                                    button.Click += six_four;
+                                    break;
+                                case 5:
+                                    button.Click += six_five;
+                                    break;
+                                case 6:
+                                    button.Click += six_six;
+                                    break;
+                                case 7:
+                                    button.Click += six_seven;
+                                    break;
+                            }
+                            break;
+                        case 7:
+                            switch (j)
+                            {
+                                case 0:
+                                    button.Click += seven_zero;
+                                    break;
+                                case 1:
+                                    button.Click += seven_one;
+                                    break;
+                                case 2:
+                                    button.Click += seven_two;
+                                    break;
+                                case 3:
+                                    button.Click += seven_three;
+                                    break;
+                                case 4:
+                                    button.Click += seven_four;
+                                    break;
+                                case 5:
+                                    button.Click += seven_five;
+                                    break;
+                                case 6:
+                                    button.Click += seven_six;
+                                    break;
+                                case 7:
+                                    button.Click += seven_seven;
+                                    break;
+                            }
+                            break;
+                    }
+
+                    Stack.Children.Add(button);
+                    Stack.SetValue(Grid.RowProperty, i);
+                    Stack.SetValue(Grid.ColumnProperty, j);
+                    Stack.Height = 45;
+                    Stack.Width = 45;
+                    button.Opacity = 0;
+                    button.Height = 45;
+                    button.Width = 45;
+
+                    MyBoard.Children.Add(Stack);
+                }
+            }
+        }
+
+        public void AddImage(Func<Image> MethodName, int X, int Y)
+        {
+            StackPanel Stack = new StackPanel();
+            Image newImage = MethodName();
+
+            Stack.Children.Add(newImage);
+            Stack.SetValue(Grid.RowProperty, X);
+            Stack.SetValue(Grid.ColumnProperty, Y);
+
+            MyBoard.Children.Add(Stack);
+        }
+
+        public void ClearBoard()
+        {
+            MyBoard.Children.Clear();
+        }
+
+        //Button Control
         private void ifSquareClicked(int currentX, int currentY)
         {
             if (NewBoard.GetPieceToMove()[0] == 8 & NewBoard.GetPieceToMove()[1] == 8)
@@ -197,6 +574,7 @@ namespace ChessApp
                 else
                 {
                     NewBoard.MovePiece(NewBoard.GetPieceToMove(), [currentX, currentY]);
+                    UpdateBoard();
                 }
             }
             return;
