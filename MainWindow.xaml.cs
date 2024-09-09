@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
+using System;
 
 namespace ChessApp
 {
@@ -22,6 +23,7 @@ namespace ChessApp
 
         private int currentX = 0;
         private int currentY = 0;
+        private bool BoardUnpaused = true;
 
         public MainWindow()
         {
@@ -161,6 +163,11 @@ namespace ChessApp
             return scb;
         }
 
+
+
+
+
+        //Setting up board//
 
         //Method to refresh the current board graphic
         public void UpdateBoard()
@@ -557,32 +564,181 @@ namespace ChessApp
 
 
 
-        //Button Control
-        private void ifSquareClicked(int currentX, int currentY)
+
+
+        //Pawn Promotion
+        public int[] findPromotedPawn()
         {
-            if (NewBoard.GetPieceToMove()[0] == 8 & NewBoard.GetPieceToMove()[1] == 8)
+            for (int i = 0; i < 8; i++)
             {
-                if (NewBoard.IsSquareBlank(currentX, currentY)) 
+                if (NewBoard.GetPieceTypeAt(0, i) == 'P')
                 {
-                    return;
+                    return [0, i];
                 }
-                else
+                else if (NewBoard.GetPieceTypeAt(7, i) == 'P')
                 {
-                    NewBoard.SetPieceToMove([currentX, currentY]);
+                    return [7, i];
                 }
+            }
+            return [8, 8];
+        }
+
+        private void Promote_to_Rook(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'R');
+            UpdateBoard();
+            BoardUnpaused = true;
+        }
+
+        private void Promote_to_Knight(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'N');
+            UpdateBoard();
+            BoardUnpaused = true;
+        }
+
+        private void Promote_to_Bishop(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'B');
+            UpdateBoard();
+            BoardUnpaused = true;
+        }
+
+        private void Promote_to_Queen(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'Q');
+            UpdateBoard();
+            BoardUnpaused = true;
+        }
+        private void promotePawn(int X, int Y, bool IsWhite)
+        {
+            Button rook = new Button();
+            Button knight = new Button();
+            Button bishop = new Button();
+            Button queen = new Button();
+
+            Image rookImage = new Image();
+            Image knightImage = new Image();
+            Image bishopImage = new Image();
+            Image queenImage = new Image();
+
+            if (IsWhite)
+            {
+                rookImage = CreateWhiteRook();
+                knightImage = CreateWhiteKnight();
+                bishopImage = CreateWhiteBishop();
+                queenImage = CreateWhiteQueen();
             }
             else
             {
-                if (NewBoard.GetPieceToMove()[0] == currentX & NewBoard.GetPieceToMove()[1] == currentY)
+                rookImage = CreateBlackRook();
+                knightImage = CreateBlackKnight();
+                bishopImage = CreateBlackBishop();
+                queenImage = CreateBlackQueen();
+            }
+
+            rookImage.SetValue(Grid.ColumnProperty, 0);
+            knightImage.SetValue(Grid.ColumnProperty, 1);
+            bishopImage.SetValue(Grid.ColumnProperty, 2);
+            queenImage.SetValue(Grid.ColumnProperty, 3);
+
+            Promotion_Grid.Children.Add(rookImage);
+            Promotion_Grid.Children.Add(knightImage);
+            Promotion_Grid.Children.Add(bishopImage);
+            Promotion_Grid.Children.Add(queenImage);
+
+            rook.Click += Promote_to_Rook;
+            knight.Click += Promote_to_Knight;
+            bishop.Click += Promote_to_Bishop;
+            queen.Click += Promote_to_Queen;
+            
+            rook.Opacity = 0;
+            knight.Opacity = 0;
+            bishop.Opacity = 0;
+            queen.Opacity = 0;
+
+            rook.SetValue(Grid.ColumnProperty, 0);
+            knight.SetValue(Grid.ColumnProperty, 1);
+            bishop.SetValue(Grid.ColumnProperty, 2);
+            queen.SetValue(Grid.ColumnProperty, 3);
+
+            Promotion_Grid.Children.Add(rook);
+            Promotion_Grid.Children.Add(knight);
+            Promotion_Grid.Children.Add(bishop);
+            Promotion_Grid.Children.Add(queen);
+            return;
+        }
+
+
+
+
+
+        //Control Buttons
+        private void flip_board(object sender, RoutedEventArgs e)
+        {
+            NewBoard.FlipBoard();
+            UpdateBoard();
+        }
+
+        private void reset_board(object sender, RoutedEventArgs e)
+        {
+            NewBoard.SetBoard();
+            UpdateBoard();
+        }
+
+
+
+
+
+        //Button Control
+        private void ifSquareClicked(int currentX, int currentY)
+        {
+            if (BoardUnpaused)
+            {
+
+                Console.WriteLine(NewBoard.GetPieceToMove()[0]);
+                Console.WriteLine(NewBoard.GetPieceToMove()[1]);
+
+                Console.WriteLine(currentX);
+                Console.WriteLine(currentY);
+
+                if (NewBoard.GetPieceToMove()[0] == 8 & NewBoard.GetPieceToMove()[1] == 8)
                 {
-                    NewBoard.SetPieceToMove([8, 8]);
-                    return;
+                    if (NewBoard.IsSquareBlank(currentX, currentY))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        NewBoard.SetPieceToMove([currentX, currentY]);
+                    }
                 }
                 else
                 {
-                    NewBoard.MovePiece(NewBoard.GetPieceToMove(), [currentX, currentY]);
-                    UpdateBoard();
-                }
+                    if (NewBoard.GetPieceToMove()[0] == currentX & NewBoard.GetPieceToMove()[1] == currentY)
+                    {
+                        NewBoard.SetPieceToMove([8, 8]);
+                        return;
+                    }
+                    else
+                    {
+                        NewBoard.MovePiece(NewBoard.GetPieceToMove(), [currentX, currentY]);
+                        if (NewBoard.GetPieceTypeAt(currentX, currentY) == 'P' & (currentX == 0 || currentX == 7))
+                        {
+                            promotePawn(currentX, currentY, NewBoard.GetIsWhiteAt(currentX, currentY));
+                            BoardUnpaused = false;
+                        }
+                        UpdateBoard();
+                    }
+              }
             }
             return;
         }

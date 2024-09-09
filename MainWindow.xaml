@@ -6,26 +6,42 @@
         xmlns:local="clr-namespace:ChessApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1600">
-    <Grid x:Name="MyBoard" Margin="440,40,440,24" RenderTransformOrigin="0.503,0.499">
+    <Grid x:Name="oGrid" Margin="0,0,60,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="440"/>
+            <ColumnDefinition Width="730"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="90"/>
-        </Grid.RowDefinitions>
+        <Grid x:Name="MyBoard" Margin="0,40,0,24" RenderTransformOrigin="0.503,0.499" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <Button Content="Flip Board" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Height="90" Margin="0,220,0,0" VerticalAlignment="Top" Width="180" Click="flip_board"/>
+        <Button Content="Reset Board" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Height="90" Margin="0,490,0,0" VerticalAlignment="Top" Width="180" Click="reset_board"/>
+        <Grid x:Name="Promotion_Grid" HorizontalAlignment="Center" Height="90" Margin="0,355,0,0" VerticalAlignment="Top" Width="180">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
     </Grid>
 </Window>
