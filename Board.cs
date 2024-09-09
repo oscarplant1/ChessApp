@@ -22,7 +22,7 @@ namespace Chess
         private int[] WhiteKingPosition = [7, 4];
         private int[] BlackKingPosition = [0, 4];
         private int[][] knightMoves = [];
-        public Piece[,] Grid = new Piece [8, 8];
+        private Piece[,] Grid = new Piece [8, 8];
         private Piece BlankPiece = new Piece(false, 'X');
 
         //Get Methods

@@ -27,4 +27,3 @@ MovesDone int
 
 Methods:
 Get and Set for all attributes
-
