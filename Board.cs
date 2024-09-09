@@ -161,20 +161,50 @@ namespace Chess
             Grid[7, 5].SetIsWhite(!isFlipped);
 
             //Black Queen
-            Grid[0, 3].SetPieceType('Q');
-            Grid[0, 3].SetIsWhite(isFlipped);
 
+            if (isFlipped)
+            {
+                Grid[0, 4].SetPieceType('Q');
+                Grid[0, 4].SetIsWhite(isFlipped);
+            }
+            else
+            { 
+                Grid[0, 3].SetPieceType('Q');
+                Grid[0, 3].SetIsWhite(isFlipped);
+            }
             //White Queen
-            Grid[7, 3].SetPieceType('Q');
-            Grid[7, 3].SetIsWhite(!isFlipped);
-
+            if (isFlipped)
+            {
+                Grid[7, 4].SetPieceType('Q');
+                Grid[7, 4].SetIsWhite(!isFlipped);
+            }
+            else
+            {
+                Grid[7, 3].SetPieceType('Q');
+                Grid[7, 3].SetIsWhite(!isFlipped);
+            }
             //Black King
-            Grid[0, 4].SetPieceType('K');
-            Grid[0, 4].SetIsWhite(isFlipped);
-
+            if (isFlipped)
+            {
+                Grid[0, 3].SetPieceType('K');
+                Grid[0, 3].SetIsWhite(isFlipped);
+            }
+            else
+            {
+                Grid[0, 4].SetPieceType('K');
+                Grid[0, 4].SetIsWhite(isFlipped);
+            }
             //White King
-            Grid[7, 4].SetPieceType('K');
-            Grid[7,4].SetIsWhite(!isFlipped);
+            if (isFlipped)
+            {
+                Grid[7, 3].SetPieceType('K');
+                Grid[7, 3].SetIsWhite(!isFlipped);
+            }
+            else
+            {
+                Grid[7, 4].SetPieceType('K');
+                Grid[7, 4].SetIsWhite(!isFlipped);
+            }
         }
 
         //Outputs current board state to console - Debugging only
@@ -371,6 +401,42 @@ namespace Chess
                         if (Math.Abs(Destination[0] - Piece[0])<=1 & Math.Abs(Destination[1] - Piece[1])<=1)
                         {
                             MovePieceObject(Piece, Destination);
+                        }
+                        else if (Math.Abs(Destination[1] - Piece[1]) == 2 & Destination[0] == Piece[0] & SelectedPiece.GetMovesDone()==0)
+                        {
+                            if (Piece[1] - Destination[1] == -2 & Grid[Destination[0],7].GetMovesDone()==0 & Grid[Destination[0], 5].GetPieceType()=='X' &!isFlipped)
+                            {
+                                MovePieceObject(Piece, Destination);
+                                MovePieceObject([Destination[0], 7], [Destination[0], 5]);
+                                PreviousMove = [Piece, Destination];
+                                MoveCounter--;
+                            }
+                            else if (Piece[1] - Destination[1] == 2 & Grid[Destination[0], 0].GetMovesDone() == 0 & Grid[Destination[0], 1].GetPieceType() == 'X' && Grid[Destination[0], 3].GetPieceType() == 'X' &!isFlipped)
+                            {
+                                MovePieceObject(Piece, Destination);
+                                MovePieceObject([Destination[0], 0], [Destination[0], 3]);
+                                PreviousMove = [Piece, Destination];
+                                MoveCounter--;
+                            }
+                            else if (Piece[1] - Destination[1] == 2 & Grid[Destination[0], 0].GetMovesDone() == 0 & Grid[Destination[0], 2].GetPieceType() == 'X' & isFlipped)
+                            {
+                                MovePieceObject(Piece, Destination);
+                                MovePieceObject([Destination[0], 0], [Destination[0], 2]);
+                                PreviousMove = [Piece, Destination];
+                                MoveCounter--;
+                            }
+                            else if (Piece[1] - Destination[1] == -2 & Grid[Destination[0], 7].GetMovesDone() == 0 & Grid[Destination[0], 4].GetPieceType() == 'X' & Grid[Destination[0], 6].GetPieceType() == 'X' &  isFlipped)
+                            {
+                                MovePieceObject(Piece, Destination);
+                                MovePieceObject([Destination[0], 7], [Destination[0], 4]);
+                                PreviousMove = [Piece, Destination];
+                                MoveCounter--;
+                            }
+                            else
+                            {
+                                PieceToMove = [8, 8];
+                                return;
+                            }
                         }
                         else
                         {

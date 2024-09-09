@@ -1221,10 +1221,5 @@ namespace ChessApp
             currentY = 7;
             ifSquareClicked(currentX, currentY);
         }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
