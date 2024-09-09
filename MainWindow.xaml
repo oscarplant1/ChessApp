@@ -43,5 +43,7 @@
                 <ColumnDefinition Width="45"/>
             </Grid.ColumnDefinitions>
         </Grid>
+        <Rectangle x:Name="whosMove" HorizontalAlignment="Center" Height="45" Margin="0,680,0,0" Stroke="Black" VerticalAlignment="Top" Width="45"/>
+        <TextBox BorderThickness="0" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Height="36" Margin="0,639,0,0" TextWrapping="Wrap" Text="Next Move:" VerticalAlignment="Top" Width="116" TextChanged="TextBox_TextChanged"/>
     </Grid>
 </Window>

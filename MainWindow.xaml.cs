@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
 using System;
+using System.Drawing;
 
 namespace ChessApp
 {
@@ -159,7 +160,7 @@ namespace ChessApp
             byte R = Convert.ToByte(hexaColor.Substring(1, 2), 16);
             byte G = Convert.ToByte(hexaColor.Substring(3, 2), 16);
             byte B = Convert.ToByte(hexaColor.Substring(5, 2), 16);
-            SolidColorBrush scb = new SolidColorBrush(Color.FromArgb(0xFF, R, G, B));
+            SolidColorBrush scb = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xFF, R, G, B));
             return scb;
         }
 
@@ -176,6 +177,15 @@ namespace ChessApp
             AddStackPanels();
             AddImages();
             AddButtons();
+
+            if (NewBoard.GetMoveCounter() % 2 == 0)
+            {
+                whosMove.Fill = new SolidColorBrush(Colors.White);
+            }
+            else
+            {
+                whosMove.Fill = new SolidColorBrush(Colors.Black);
+            }
         }
 
         //Clears the predefined 8x8 grid
@@ -205,6 +215,17 @@ namespace ChessApp
                     }
 
                     MyBoard.Children.Add(panel);
+
+                    if (NewBoard.GetPieceToMove()[0] == i & NewBoard.GetPieceToMove()[1] == j)
+                    {
+                        StackPanel highlight = new StackPanel();
+                        panel.SetValue(Grid.RowProperty, i);
+                        panel.SetValue(Grid.ColumnProperty, j);
+
+                        panel.Background = new SolidColorBrush(Colors.Yellow);
+                        panel.Opacity = 0.4;
+                        MyBoard.Children.Add(highlight);
+                    }
                 }
             }
         }
@@ -329,7 +350,7 @@ namespace ChessApp
                                 case 3:
                                     button.Click += zero_three;
                                     break;
-                                case 4: 
+                                case 4:
                                     button.Click += zero_four;
                                     break;
                                 case 5:
@@ -659,7 +680,7 @@ namespace ChessApp
             knight.Click += Promote_to_Knight;
             bishop.Click += Promote_to_Bishop;
             queen.Click += Promote_to_Queen;
-            
+
             rook.Opacity = 0;
             knight.Opacity = 0;
             bishop.Opacity = 0;
@@ -703,45 +724,40 @@ namespace ChessApp
         {
             if (BoardUnpaused)
             {
-
-                Console.WriteLine(NewBoard.GetPieceToMove()[0]);
-                Console.WriteLine(NewBoard.GetPieceToMove()[1]);
-
-                Console.WriteLine(currentX);
-                Console.WriteLine(currentY);
-
-                if (NewBoard.GetPieceToMove()[0] == 8 & NewBoard.GetPieceToMove()[1] == 8)
+                if (NewBoard.GetPieceToMove()[0] == 8 & NewBoard.GetPieceToMove()[1] == 8 & !NewBoard.IsSquareBlank(currentX, currentY))
                 {
-                    if (NewBoard.IsSquareBlank(currentX, currentY))
-                    {
-                        return;
-                    }
-                    else
+                    if ((NewBoard.GetIsWhiteAt(currentX, currentY) & NewBoard.GetMoveCounter() % 2 == 0) || (!NewBoard.GetIsWhiteAt(currentX, currentY) & NewBoard.GetMoveCounter() % 2 == 1))
                     {
                         NewBoard.SetPieceToMove([currentX, currentY]);
-                    }
-                }
-                else
-                {
-                    if (NewBoard.GetPieceToMove()[0] == currentX & NewBoard.GetPieceToMove()[1] == currentY)
-                    {
-                        NewBoard.SetPieceToMove([8, 8]);
-                        return;
+                        UpdateBoard();
                     }
                     else
                     {
-                        NewBoard.MovePiece(NewBoard.GetPieceToMove(), [currentX, currentY]);
-                        if (NewBoard.GetPieceTypeAt(currentX, currentY) == 'P' & (currentX == 0 || currentX == 7))
-                        {
-                            promotePawn(currentX, currentY, NewBoard.GetIsWhiteAt(currentX, currentY));
-                            BoardUnpaused = false;
-                        }
+                        NewBoard.SetPieceToMove([8, 8]);
                         UpdateBoard();
+                        return;
                     }
-              }
+                }
+                else if (NewBoard.GetPieceToMove()[0] == currentX & NewBoard.GetPieceToMove()[1] == currentY)
+                {
+                    NewBoard.SetPieceToMove([8, 8]);
+                    UpdateBoard();
+                    return;
+                }
+                else if ((NewBoard.GetPieceToMove()[0]<8 & NewBoard.GetPieceToMove()[1]<8))
+                {
+                    NewBoard.MovePiece(NewBoard.GetPieceToMove(), [currentX, currentY]);
+                    if (NewBoard.GetPieceTypeAt(currentX, currentY) == 'P' & (currentX == 0 || currentX == 7))
+                    {
+                        promotePawn(currentX, currentY, NewBoard.GetIsWhiteAt(currentX, currentY));
+                        BoardUnpaused = false;
+                    }
+                    UpdateBoard();
+                }
             }
-            return;
         }
+    
+ 
 
         ///NEW COLUMN
 
@@ -1204,6 +1220,11 @@ namespace ChessApp
             currentX = 7;
             currentY = 7;
             ifSquareClicked(currentX, currentY);
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

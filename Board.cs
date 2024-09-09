@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -20,6 +21,7 @@ namespace Chess
         private int[] PieceToMove = [8, 8]; //Use [8,8] as a null variable as grid doesn't go past [7,7]
         private int[] WhiteKingPosition = [7, 4];
         private int[] BlackKingPosition = [0, 4];
+        private int[][] knightMoves = [];
         public Piece[,] Grid = new Piece [8, 8];
         private Piece BlankPiece = new Piece(false, 'X');
 
@@ -214,7 +216,7 @@ namespace Chess
                 multiplier = -1;
             }
 
-            Piece SelectedPiece = Grid[Piece[0],Piece[1]];
+            Piece SelectedPiece = Grid[Piece[0], Piece[1]];
             Piece TargetSquare = Grid[Destination[0], Destination[1]];
             
             char CurrentPieceType = SelectedPiece.GetPieceType();
@@ -229,6 +231,7 @@ namespace Chess
             {
                 switch (CurrentPieceType)
                 {
+                    //Pawn rules
                     case 'P':
                         if (Piece[1] == Destination[1])
                         {
@@ -289,24 +292,91 @@ namespace Chess
                             }  
                         }
                         break;
+                    //Rook rules
                     case 'R':
-                        MovePieceObject(Piece, Destination);
+                        if (Piece[0] == Destination[0] || Piece[1] == Destination[1])
+                        {
+                            if (CheckBetween(Piece, Destination))
+                            { 
+                                MovePieceObject(Piece, Destination);
+                            }
+                            else
+                            {
+                                PieceToMove = [8, 8];
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            PieceToMove = [8, 8];
+                            return;
+                        }
                         break;
-
                     case 'N':
-                        MovePieceObject(Piece, Destination);
+                        knightMoves = [[Piece[0]-2,Piece[1]-1], [Piece[0]-2, Piece[1]+1], [Piece[0]-1, Piece[1]+2], [Piece[0]+1, Piece[1]+2], [Piece[0]+2, Piece[1]+1], [Piece[0]+2, Piece[1]-1], [Piece[0]+1, Piece[1]-2], [Piece[0]-1, Piece[1]-2]];
+                        bool found = false;
+                        for (int i = 0; i < knightMoves.Length; i++)
+                        {
+                            if (knightMoves[i][0] == Destination[0] & knightMoves[i][1] == Destination[1])
+                            {
+                                MovePieceObject(Piece, Destination);
+                                found = true;
+                            }
+                        }
+                        if (!found)
+                        {
+                            PieceToMove = [8, 8];
+                            return;
+                        }
                         break;
-
                     case 'B':
-                        MovePieceObject(Piece, Destination);
+                        if (Math.Abs(Piece[0] - Destination[0]) == Math.Abs(Piece[1] - Destination[1]))
+                        {
+                            if (CheckBetween(Piece, Destination))
+                            {
+                                MovePieceObject(Piece, Destination);
+                            }
+                            else
+                            {
+                                PieceToMove = [8, 8];
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            PieceToMove = [8, 8];
+                            return;
+                        }
                         break;
-
                     case 'Q':
-                        MovePieceObject(Piece, Destination);
+                        if (Math.Abs(Piece[0] - Destination[0]) == Math.Abs(Piece[1] - Destination[1])|| Piece[0] == Destination[0] || Piece[1] == Destination[1])
+                        {
+                            if (CheckBetween(Piece, Destination))
+                            {
+                                MovePieceObject(Piece, Destination);
+                            }
+                            else
+                            {
+                                PieceToMove = [8, 8];
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            PieceToMove = [8, 8];
+                            return;
+                        }
                         break;
-
                     case 'K':
-                        MovePieceObject(Piece, Destination);
+                        if (Math.Abs(Destination[0] - Piece[0])<=1 & Math.Abs(Destination[1] - Piece[1])<=1)
+                        {
+                            MovePieceObject(Piece, Destination);
+                        }
+                        else
+                        {
+                            PieceToMove = [8, 8];
+                            return;
+                        }
                         break;
                 }
             }
