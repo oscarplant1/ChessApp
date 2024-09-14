@@ -178,6 +178,8 @@ namespace ChessApp
             AddImages();
             AddButtons();
 
+            //Console.WriteLine(NewBoard.WhiteinCheck());
+
             if (NewBoard.GetMoveCounter() % 2 == 0)
             {
                 whosMove.Fill = new SolidColorBrush(Colors.White);
@@ -609,6 +611,7 @@ namespace ChessApp
             Promotion_Grid.Children.Clear();
             int[] pawn = findPromotedPawn();
             NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'R');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
         }
@@ -618,6 +621,7 @@ namespace ChessApp
             Promotion_Grid.Children.Clear();
             int[] pawn = findPromotedPawn();
             NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'N');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
         }
@@ -627,6 +631,7 @@ namespace ChessApp
             Promotion_Grid.Children.Clear();
             int[] pawn = findPromotedPawn();
             NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'B');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
         }
@@ -636,6 +641,7 @@ namespace ChessApp
             Promotion_Grid.Children.Clear();
             int[] pawn = findPromotedPawn();
             NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'Q');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
         }
@@ -705,14 +711,32 @@ namespace ChessApp
         //Control Buttons
         private void flip_board(object sender, RoutedEventArgs e)
         {
-            NewBoard.FlipBoard();
-            UpdateBoard();
+            if (BoardUnpaused)
+            {
+                NewBoard.FlipBoard();
+                UpdateBoard();
+            }
         }
 
         private void reset_board(object sender, RoutedEventArgs e)
         {
-            NewBoard.SetBoard();
-            UpdateBoard();
+            if (BoardUnpaused)
+            {
+                NewBoard.SetBoard();
+                UpdateBoard();
+            }
+        }
+
+        private void Undo_Button(object sender, RoutedEventArgs e)
+        {
+            if (BoardUnpaused)
+            {
+                if (NewBoard.GetMoveCounter() > 0)
+                {
+                    NewBoard.undoLastMove();
+                    UpdateBoard();
+                }
+            }
         }
 
 
@@ -756,8 +780,8 @@ namespace ChessApp
                 }
             }
         }
-    
- 
+
+
 
         ///NEW COLUMN
 

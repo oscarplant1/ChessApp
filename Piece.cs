@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Chess
         private bool IsChecking = false;
         private char PieceType = Piece;
         private int MovesDone = 0;
+        private int PromotedPawn = -1;
 
         //Get Methods
         public bool GetIsWhite()
@@ -36,6 +38,11 @@ namespace Chess
             return MovesDone;
         }
 
+        public int GetPromotedPawn()
+        {
+            return PromotedPawn;
+        }
+
         //Set Methods
         public void SetIsWhite(bool White)
         {
@@ -55,6 +62,11 @@ namespace Chess
         public void SetMovesDone(int Moves)
         {
             MovesDone = Moves;
+        }
+
+        public void SetPromotedPawn(int promoted)
+        {
+            PromotedPawn = promoted;
         }
     }
 }

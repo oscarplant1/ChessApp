@@ -33,6 +33,7 @@
                 <RowDefinition Height="90"/>
             </Grid.RowDefinitions>
         </Grid>
+        <Button Content="Undo" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Height="90" Margin="0,78,0,0" VerticalAlignment="Top" Width="180" Click="Undo_Button"/>
         <Button Content="Flip Board" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Height="90" Margin="0,220,0,0" VerticalAlignment="Top" Width="180" Click="flip_board"/>
         <Button Content="Reset Board" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Height="90" Margin="0,490,0,0" VerticalAlignment="Top" Width="180" Click="reset_board"/>
         <Grid x:Name="Promotion_Grid" HorizontalAlignment="Center" Height="90" Margin="0,355,0,0" VerticalAlignment="Top" Width="180">

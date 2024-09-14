@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Printing;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +18,17 @@ namespace Chess
         //Attributes
         private int MoveCounter = 0;
         private bool isFlipped = false;
-        private int[][] PreviousMove = [[8,8], [8,8]];
+        private List <int[][]> MovesDone = new List<int[][]>();
         private int[] PieceToMove = [8, 8]; //Use [8,8] as a null variable as grid doesn't go past [7,7]
         private int[] WhiteKingPosition = [7, 4];
         private int[] BlackKingPosition = [0, 4];
         private int[][] knightMoves = [];
         private Piece[,] Grid = new Piece [8, 8];
         private Piece BlankPiece = new Piece(false, 'X');
+        private List<Piece> PiecesTaken = new List<Piece>();
+        private int multiplier = 1;
+        private bool isWhitesMove =true;
+
 
         //Get Methods
         public int GetMoveCounter()
@@ -46,6 +51,16 @@ namespace Chess
             return PieceToMove;
         }
 
+        public int GetMultiplier()
+        {
+            return multiplier;
+        }
+
+        public bool GetisWhitesMove()
+        {
+            return isWhitesMove;
+        }
+
         //Get Methods for Piece objects at chosen square
         public char GetPieceTypeAt(int X, int Y)
         {
@@ -57,6 +72,11 @@ namespace Chess
             return Grid[X, Y].GetIsWhite();
         }
 
+        public int GetPromotedPawnAt(int X, int Y)
+        {
+            return Grid[X, Y].GetPromotedPawn();
+        }
+
         //Set Methods
         public void SetMoveCounter(int Moves)
         {
@@ -66,6 +86,11 @@ namespace Chess
         public void SetPieceTypeAt(int X, int Y, char PieceType)
         {
             Grid[X,Y].SetPieceType(PieceType);
+        }
+
+        public void SetPromotedPawnAt(int X, int Y, int Promoted)
+        {
+            Grid[X,Y].SetPromotedPawn(Promoted);
         }
 
         public void SetWhiteKingPosition(int[] WhiteKing)
@@ -81,6 +106,16 @@ namespace Chess
         public void SetPieceToMove(int[] Piece)
         {
             PieceToMove = Piece;
+        }
+
+        public void SetMultiplier(int Multiplier)
+        {
+            multiplier = Multiplier;
+        }
+
+        public void SetIsWhitesMove(bool WhitesMove)
+        {
+            isWhitesMove = WhitesMove;
         }
 
         //Methods
@@ -100,6 +135,9 @@ namespace Chess
         //Sets board with Pieces in starting positions
         public void SetBoard()
         {
+            PiecesTaken = new List<Piece>();
+            MovesDone = new List<int[][]>();
+
             MoveCounter = 0;
             PieceToMove = [8, 8];
 
@@ -223,11 +261,48 @@ namespace Chess
             Console.WriteLine("--------------------------------------------------------------");
         }
 
+        public void OutputLists()
+        {
+            
+            Console.WriteLine("==========================================================");
+            Console.WriteLine("==========================================================");
+            Console.WriteLine("==========================================================");
+            Console.WriteLine();
+
+            for (int i = 0; i < MovesDone.Count(); i++)
+            {
+                int PieceX = MovesDone[i][0][0];
+                int PieceY = MovesDone[i][0][1];
+
+                int DestinationX = MovesDone[i][1][0];
+                int DestinationY = MovesDone[i][1][1];
+
+                int CurrentIsFlipped = MovesDone[i][2][0];
+                int CurrentMove = MovesDone[i][2][1];
+
+                char CurrentPieceTakenType = PiecesTaken[i].GetPieceType();
+
+                Console.WriteLine(PieceX + "," + PieceY+ "   "+DestinationX+","+DestinationY);
+                Console.WriteLine() ;
+                Console.WriteLine(CurrentMove);
+                Console.WriteLine();
+                Console.WriteLine(CurrentIsFlipped);
+                Console.WriteLine();
+                Console.WriteLine(CurrentPieceTakenType + " " + PiecesTaken[i].GetIsWhite());
+                Console.WriteLine();
+                //Console.WriteLine(MoveCounter);
+                //Console.WriteLine();
+                Console.WriteLine("--------------------------------------------");
+                Console.WriteLine();
+            
+
+            Console.WriteLine();
+
+            }
+        }
+
         public void MovePiece(int[] Piece, int[] Destination)
         {
-            int multiplier;
-            bool isWhitesMove;
-
             if (MoveCounter % 2 == 0)
             {
                 isWhitesMove = true;
@@ -309,10 +384,11 @@ namespace Chess
                             }
                             else
                             {
-                                if (Grid[PreviousMove[1][0], PreviousMove[1][1]].GetPieceType() == 'P' & Math.Abs(PreviousMove[0][0] - PreviousMove[1][0]) == 2 & Math.Abs(PreviousMove[1][1] - Piece[1]) == 1 & Destination[1] == PreviousMove[1][1] & Destination[0] - PreviousMove[1][0] == -1 * multiplier)
+                                if (Grid[MovesDone.Last()[1][0], MovesDone.Last()[1][1]].GetPieceType() == 'P' & Math.Abs(MovesDone.Last()[0][0] - MovesDone.Last()[1][0]) == 2 & Math.Abs(MovesDone.Last()[1][1] - Piece[1]) == 1 & Destination[1] == MovesDone.Last()[1][1] & Destination[0] - MovesDone.Last()[1][0] == -1 * multiplier)
                                 {
-                                    Grid[PreviousMove[1][0], PreviousMove[1][1]] = BlankPiece;
-                                    MovePieceObject(Piece, Destination);
+                                    MovePieceObject(Piece, [Destination[0]+multiplier, Destination[1]]);
+                                    MoveCounter--;
+                                    MovePieceObject([Destination[0]+multiplier, Destination[1]], Destination);
                                 }
                                 else
                                 {
@@ -401,36 +477,77 @@ namespace Chess
                         if (Math.Abs(Destination[0] - Piece[0])<=1 & Math.Abs(Destination[1] - Piece[1])<=1)
                         {
                             MovePieceObject(Piece, Destination);
+
+                            if (SelectedPiece.GetIsWhite())
+                            {
+                                WhiteKingPosition = Destination;
+                            }
+                            else
+                            {
+                                BlackKingPosition = Destination;
+                            }
                         }
                         else if (Math.Abs(Destination[1] - Piece[1]) == 2 & Destination[0] == Piece[0] & SelectedPiece.GetMovesDone()==0)
                         {
                             if (Piece[1] - Destination[1] == -2 & Grid[Destination[0],7].GetMovesDone()==0 & Grid[Destination[0], 5].GetPieceType()=='X' &!isFlipped)
                             {
                                 MovePieceObject(Piece, Destination);
+                                MoveCounter = MoveCounter - 1;
                                 MovePieceObject([Destination[0], 7], [Destination[0], 5]);
-                                PreviousMove = [Piece, Destination];
-                                MoveCounter--;
+
+                                if (SelectedPiece.GetIsWhite())
+                                {
+                                    WhiteKingPosition = Destination;
+                                }
+                                else
+                                {
+                                    BlackKingPosition = Destination;
+                                }
                             }
                             else if (Piece[1] - Destination[1] == 2 & Grid[Destination[0], 0].GetMovesDone() == 0 & Grid[Destination[0], 1].GetPieceType() == 'X' && Grid[Destination[0], 3].GetPieceType() == 'X' &!isFlipped)
                             {
                                 MovePieceObject(Piece, Destination);
+                                MoveCounter = MoveCounter - 1;
                                 MovePieceObject([Destination[0], 0], [Destination[0], 3]);
-                                PreviousMove = [Piece, Destination];
-                                MoveCounter--;
+
+                                if (SelectedPiece.GetIsWhite())
+                                {
+                                    WhiteKingPosition = Destination;
+                                }
+                                else
+                                {
+                                    BlackKingPosition = Destination;
+                                }
                             }
                             else if (Piece[1] - Destination[1] == 2 & Grid[Destination[0], 0].GetMovesDone() == 0 & Grid[Destination[0], 2].GetPieceType() == 'X' & isFlipped)
                             {
                                 MovePieceObject(Piece, Destination);
+                                MoveCounter = MoveCounter - 1;
                                 MovePieceObject([Destination[0], 0], [Destination[0], 2]);
-                                PreviousMove = [Piece, Destination];
-                                MoveCounter--;
+
+                                if (SelectedPiece.GetIsWhite())
+                                {
+                                    WhiteKingPosition = Destination;
+                                }
+                                else
+                                {
+                                    BlackKingPosition = Destination;
+                                }
                             }
                             else if (Piece[1] - Destination[1] == -2 & Grid[Destination[0], 7].GetMovesDone() == 0 & Grid[Destination[0], 4].GetPieceType() == 'X' & Grid[Destination[0], 6].GetPieceType() == 'X' &  isFlipped)
                             {
                                 MovePieceObject(Piece, Destination);
+                                MoveCounter = MoveCounter - 1;
                                 MovePieceObject([Destination[0], 7], [Destination[0], 4]);
-                                PreviousMove = [Piece, Destination];
-                                MoveCounter--;
+
+                                if (SelectedPiece.GetIsWhite())
+                                {
+                                    WhiteKingPosition = Destination;
+                                }
+                                else
+                                {
+                                    BlackKingPosition = Destination;
+                                }
                             }
                             else
                             {
@@ -456,12 +573,393 @@ namespace Chess
             SelectedPiece.SetMovesDone(SelectedPiece.GetMovesDone() + 1);
             MoveCounter++;
 
+            TargetSquare.SetIsWhite(!SelectedPiece.GetIsWhite());
+            PiecesTaken.Add(TargetSquare);
+
             Grid[Piece[0], Piece[1]] = BlankPiece;
             Grid[Destination[0], Destination[1]] = SelectedPiece;
 
-            PreviousMove = [Piece, Destination];
+            updateIsChecking();
+
+            if (isFlipped)
+            {
+                MovesDone.Add([Piece, Destination, [-1,MoveCounter]]);
+            }
+            else
+            {
+                MovesDone.Add([Piece, Destination, [1,MoveCounter]]);
+            }
             PieceToMove = [8, 8];
+
+            //OutputLists();
+            //Console.WriteLine(MoveCounter);
+
         }
+
+
+
+
+
+        //Check and Checkmate logic
+        public void updateIsChecking()
+        {
+            Piece PieceToUpdate;
+
+            for (int X = 0; X < 8; X++)
+            {
+                for (int Y = 0; Y < 8; Y++)
+                {
+                    PieceToUpdate = Grid[X, Y];
+
+                    if (PieceToUpdate.GetIsWhite()&PieceToUpdate.GetPieceType()!='X')
+                    {
+                        switch (PieceToUpdate.GetPieceType())
+                        {
+                            case 'P':
+                                if (X == BlackKingPosition[0] + (multiplier * 1) & (Y == BlackKingPosition[1] + 1 || Y == BlackKingPosition[1] - 1))
+                                {
+                                    Grid[X, Y].SetIsChecking(true);
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'R':
+                                if (X == BlackKingPosition[0] || Y == BlackKingPosition[1])
+                                {
+                                    if (CheckBetween([X,Y],BlackKingPosition))
+                                    {
+                                        Grid[X, Y].SetIsChecking(true);
+                                    }
+                                    else
+                                    {
+                                        Grid[X, Y].SetIsChecking(false);
+                                    }
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'N':
+                                int Xdifference = Math.Abs(X-BlackKingPosition[0]);
+                                int Ydifference = Math.Abs(Y-BlackKingPosition[1]);
+
+                                if((Xdifference == 1 & Ydifference == 2)|| (Xdifference == 2 & Ydifference == 1))
+                                {
+                                    Grid[X, Y].SetIsChecking(true);
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'B':
+                                if (X - BlackKingPosition[0] == Y - BlackKingPosition[1]|| X - BlackKingPosition[0] == BlackKingPosition[1] - Y)
+                                {
+                                    if (CheckBetween([X, Y], BlackKingPosition))
+                                    {
+                                        Grid[X, Y].SetIsChecking(true);
+                                    }
+                                    else
+                                    {
+                                        Grid[X, Y].SetIsChecking(false);
+                                    }
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'Q':
+                                if (X == BlackKingPosition[0] || Y == BlackKingPosition[1]|| X - BlackKingPosition[0] == Y - BlackKingPosition[1] || X - BlackKingPosition[0] == BlackKingPosition[1] - Y)
+                                {
+                                    if (CheckBetween([X, Y], BlackKingPosition))
+                                    {
+                                        Grid[X, Y].SetIsChecking(true);
+                                    }
+                                    else
+                                    {
+                                        Grid[X, Y].SetIsChecking(false);
+                                    }
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'K':
+                                if (Math.Abs(X - BlackKingPosition[0]) <= 1 & Math.Abs(Y - BlackKingPosition[1]) <= 1)
+                                {
+                                    Grid[X, Y].SetIsChecking(true);
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                        }
+                    }
+                    else if (PieceToUpdate.GetPieceType()!='X')
+                    {
+                        switch (PieceToUpdate.GetPieceType())
+                        {
+                            case 'P':
+                                if (X == WhiteKingPosition[0] + (multiplier * 1) & (Y == WhiteKingPosition[1] + 1 || Y == WhiteKingPosition[1] - 1))
+                                {
+                                    Grid[X, Y].SetIsChecking(true);
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'R':
+                                if (X == WhiteKingPosition[0] || Y == WhiteKingPosition[1])
+                                {
+                                    if (CheckBetween([X, Y], WhiteKingPosition))
+                                    {
+                                        Grid[X, Y].SetIsChecking(true);
+                                    }
+                                    else
+                                    {
+                                        Grid[X, Y].SetIsChecking(false);
+                                    }
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'N':
+                                int Xdifference = Math.Abs(X - WhiteKingPosition[0]);
+                                int Ydifference = Math.Abs(Y - WhiteKingPosition[1]);
+
+                                if ((Xdifference == 1 & Ydifference == 2) || (Xdifference == 2 & Ydifference == 1))
+                                {
+                                    Grid[X, Y].SetIsChecking(true);
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'B':
+                                if (X - WhiteKingPosition[0] == Y - WhiteKingPosition[1] || X - WhiteKingPosition[0] == WhiteKingPosition[1] - Y)
+                                {
+                                    if (CheckBetween([X, Y], WhiteKingPosition))
+                                    {
+                                        Grid[X, Y].SetIsChecking(true);
+                                    }
+                                    else
+                                    {
+                                        Grid[X, Y].SetIsChecking(false);
+                                    }
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'Q':
+                                if (X == WhiteKingPosition[0] || Y == WhiteKingPosition[1] || X - WhiteKingPosition[0] == Y - WhiteKingPosition[1] || X - WhiteKingPosition[0] == WhiteKingPosition[1] - Y)
+                                {
+                                    if (CheckBetween([X, Y], WhiteKingPosition))
+                                    {
+                                        Grid[X, Y].SetIsChecking(true);
+                                    }
+                                    else
+                                    {
+                                        Grid[X, Y].SetIsChecking(false);
+                                    }
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                            case 'K':
+                                if (Math.Abs(X - WhiteKingPosition[0]) <= 1 & Math.Abs(Y - WhiteKingPosition[1])<=1)
+                                {
+                                    Grid[X, Y].SetIsChecking(true);
+                                }
+                                else
+                                {
+                                    Grid[X, Y].SetIsChecking(false);
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool WhiteinCheck()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for(int j = 0; j < 8; j++)
+                {
+                    Piece CurrentPiece = Grid[i, j];
+
+                    if (CurrentPiece.GetIsChecking() & !CurrentPiece.GetIsWhite())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool BlackinCheck()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Piece CurrentPiece = Grid[i, j];
+
+                    if (CurrentPiece.GetIsChecking() & CurrentPiece.GetIsWhite())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void undoLastMove()
+        {
+
+            if (PiecesTaken.Count() > 0)
+            {
+                int CurrentMoveCount = MovesDone.Last()[2][1];
+
+                bool isFlippedNow = isFlipped;
+                bool isFlippedWhenMoved;
+
+                int[] Piece = MovesDone.Last()[1];
+                int[] Destination = MovesDone.Last()[0];
+
+                if (MovesDone.Last()[2][0] == -1)
+                {
+                    isFlippedWhenMoved = true;
+                }
+                else
+                {
+                    isFlippedWhenMoved = false;
+                }
+
+                if (isFlippedNow != isFlippedWhenMoved)
+                {
+                    Piece[0] = 7 - Piece[0];
+                    Piece[1] = 7 - Piece[1];
+
+                    Destination[0] = 7 - Destination[0];
+                    Destination[1] = 7 - Destination[1];
+                }
+
+                Piece PieceToReplace = PiecesTaken.Last();
+
+                Grid[Piece[0], Piece[1]].SetMovesDone(Grid[Piece[0], Piece[1]].GetMovesDone() - 1);
+
+                Piece temp = Grid[Piece[0], Piece[1]];
+
+                Grid[Piece[0], Piece[1]] = PieceToReplace;
+                Grid[Destination[0], Destination[1]] = temp;
+
+                if (Grid[Destination[0], Destination[1]].GetPromotedPawn() == MoveCounter)
+                {
+                    Grid[Destination[0], Destination[1]].SetPieceType('P');
+                    Grid[Destination[0], Destination[1]].SetPromotedPawn(-1);
+                }
+
+                MoveCounter--;
+
+                PiecesTaken.RemoveAt(PiecesTaken.Count() - 1);
+                MovesDone.RemoveAt(MovesDone.Count() - 1);
+
+                
+                if (PiecesTaken.Count() > 0)
+                {
+                    if (CurrentMoveCount == MovesDone.Last()[2][1])
+                    {
+                        Piece = MovesDone.Last()[1];
+                        Destination = MovesDone.Last()[0];
+
+                        PieceToReplace = PiecesTaken.Last();
+
+                        Grid[Piece[0], Piece[1]].SetMovesDone(Grid[Piece[0], Piece[1]].GetMovesDone() - 1);
+
+                        temp = Grid[Piece[0], Piece[1]];
+
+                        Grid[Piece[0], Piece[1]] = PieceToReplace;
+                        Grid[Destination[0], Destination[1]] = temp;
+
+                        PiecesTaken.RemoveAt(PiecesTaken.Count() - 1);
+                        MovesDone.RemoveAt(MovesDone.Count() - 1);
+                    }
+                }
+                
+                //OutputLists();
+                //Console.WriteLine(MoveCounter);
+            }
+        }
+
+        public bool WhiteinCheckMate()
+        {
+            if (WhiteinCheck())
+            {
+                for (int i = 0; i <8; i++)
+                {
+                    for(int j = 0; j < 8; j++)
+                    {
+                        Piece CurrentPiece = Grid[i,j];
+
+                        bool foundPossibleMove = false;
+
+                        if (CurrentPiece.GetIsWhite() & CurrentPiece.GetPieceType() != 'X')
+                        {
+                            for(int k = 0; k < 8; k++)
+                            {
+                                for(int l = 0; l < 8; l++)
+                                {
+                                    Piece[,] GridBefore = Grid;
+
+                                    MovePiece([i,j],[k,l]);
+                                    if (!WhiteinCheck())
+                                    {
+                                        foundPossibleMove = true;
+                                    } 
+
+                                    Grid = GridBefore;
+
+                                    if (foundPossibleMove)
+                                    {
+                                        return false;
+                                    }
+                                }
+                            }
+                            
+                        }
+
+
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool BlackinCheckmate()
+        {
+            return false;
+        }
+
+
+
+
 
         //Returns false if there is a piece between two given points
         public bool CheckBetween(int[] Piece, int[] Destination)
@@ -566,6 +1064,10 @@ namespace Chess
                     SwapPieces([i, j], [(7-i),(7-j)]);
                 }
             }
+            BlackKingPosition[0] = 7 - BlackKingPosition[0];
+            BlackKingPosition[1] = 7 - BlackKingPosition[1];
+            WhiteKingPosition[0] = 7 - WhiteKingPosition[0];
+            BlackKingPosition[1] = 7 - BlackKingPosition[1];
             isFlipped = !isFlipped;
         }
         public void SwapPieces(int[] Piece1, int[] Piece2)
