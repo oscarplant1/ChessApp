@@ -177,8 +177,23 @@ namespace ChessApp
             AddStackPanels();
             AddImages();
             AddButtons();
+            //NewBoard.TestGrid();
 
-            //Console.WriteLine(NewBoard.WhiteinCheck());
+            if (NewBoard.WhiteinCheckmate()||NewBoard.BlackinCheckmate())
+            {
+                if (NewBoard.WhiteinCheckmate())
+                {
+                    Winner.Text = "Black wins";
+                }
+                else
+                {
+                    Winner.Text = "White wins";
+                }
+            }
+            else
+            {
+                Winner.Text = "";
+            }
 
             if (NewBoard.GetMoveCounter() % 2 == 0)
             {
