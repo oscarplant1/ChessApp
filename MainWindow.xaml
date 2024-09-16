@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessApp"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="900" Width="1600">
     <Grid x:Name="oGrid" Margin="0,0,60,0">
         <Grid.ColumnDefinitions>
