@@ -46,6 +46,6 @@
         </Grid>
         <Rectangle x:Name="whosMove" HorizontalAlignment="Center" Height="45" Margin="0,680,0,0" Stroke="Black" VerticalAlignment="Top" Width="45"/>
         <TextBlock HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Height="36" Margin="0,639,0,0" TextWrapping="Wrap" Text="Next Move:" VerticalAlignment="Top" Width="116"/>
-        <TextBlock x:Name="Winner" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Height="90" Margin="0,61,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="Winner" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Height="90" Margin="0,61,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" TextAlignment="Center"/>
     </Grid>
 </Window>

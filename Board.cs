@@ -1040,13 +1040,138 @@ namespace Chess
             return false;
         }
 
-        public bool WhiteinCheckmate()
+        public bool inStalemate()
         {
+            if(!BlackinCheck() & !WhiteinCheck())
+            {
+                //If its whites move, try to find a possible move
+                if(MoveCounter % 2 == 0)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            Piece CurrentPiece = Grid[i, j];
+
+                            if (CurrentPiece.GetIsWhite() & CurrentPiece.GetPieceType() != 'X')
+                            {
+                                for (int k = 0; k < 8; k++)
+                                {
+                                    for (int l = 0; l < 8; l++)
+                                    {
+                                        MovePiece([i, j], [k, l]);
+
+                                        if (Grid[i, j].GetPieceType() == 'X')
+                                        {
+                                            undoLastMove();
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return true;
+                }
+                //If its blacks move, try to find a possible move
+                else
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            Piece CurrentPiece = Grid[i, j];
+
+                            if (!CurrentPiece.GetIsWhite() & CurrentPiece.GetPieceType() != 'X')
+                            {
+                                for (int k = 0; k < 8; k++)
+                                {
+                                    for (int l = 0; l < 8; l++)
+                                    {
+                                        MovePiece([i, j], [k, l]);
+
+                                        if (Grid[i, j].GetPieceType() == 'X')
+                                        {
+                                            undoLastMove();
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+
             return false;
         }
 
+        public bool WhiteinCheckmate()
+        {
+            if (WhiteinCheck())
+            {
+                for(int i = 0;i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Piece CurrentPiece = Grid[i, j];
+
+                        if (CurrentPiece.GetIsWhite() & CurrentPiece.GetPieceType() != 'X')
+                        {
+                            for (int k = 0; k < 8; k++)
+                            {
+                                for (int l = 0; l < 8; l++)
+                                {
+                                    MovePiece([i, j], [k, l]);
+                                    
+                                    if(Grid[i, j].GetPieceType() == 'X')
+                                    {
+                                        undoLastMove();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+
+
         public bool BlackinCheckmate()
         {
+            if (BlackinCheck())
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Piece CurrentPiece = Grid[i, j];
+
+                        if (!CurrentPiece.GetIsWhite() & CurrentPiece.GetPieceType() != 'X')
+                        {
+                            for (int k = 0; k < 8; k++)
+                            {
+                                for (int l = 0; l < 8; l++)
+                                {
+                                    MovePiece([i, j], [k, l]);
+
+                                    if (Grid[i, j].GetPieceType() == 'X')
+                                    {
+                                        undoLastMove();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
             return false;
         }
 

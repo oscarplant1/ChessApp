@@ -179,22 +179,6 @@ namespace ChessApp
             AddButtons();
             //NewBoard.TestGrid();
 
-            if (NewBoard.WhiteinCheckmate()||NewBoard.BlackinCheckmate())
-            {
-                if (NewBoard.WhiteinCheckmate())
-                {
-                    Winner.Text = "Black wins";
-                }
-                else
-                {
-                    Winner.Text = "White wins";
-                }
-            }
-            else
-            {
-                Winner.Text = "";
-            }
-
             if (NewBoard.GetMoveCounter() % 2 == 0)
             {
                 whosMove.Fill = new SolidColorBrush(Colors.White);
@@ -738,6 +722,7 @@ namespace ChessApp
             if (BoardUnpaused)
             {
                 NewBoard.SetBoard();
+                Winner.Text = "";
                 UpdateBoard();
             }
         }
@@ -749,6 +734,7 @@ namespace ChessApp
                 if (NewBoard.GetMoveCounter() > 0)
                 {
                     NewBoard.undoLastMove();
+                    Winner.Text = "";
                     UpdateBoard();
                 }
             }
@@ -791,6 +777,24 @@ namespace ChessApp
                         promotePawn(currentX, currentY, NewBoard.GetIsWhiteAt(currentX, currentY));
                         BoardUnpaused = false;
                     }
+
+                    if (NewBoard.WhiteinCheckmate())
+                    {
+                        Winner.Text = "Black wins";
+                    }
+                    else if (NewBoard.BlackinCheckmate())
+                    {
+                        Winner.Text = "White wins";
+                    }
+                    else if (NewBoard.inStalemate())
+                    {
+                        Winner.Text = "Stalemate";
+                    }
+                    else 
+                    {
+                        Winner.Text = "";
+                    }
+
                     UpdateBoard();
                 }
             }
