@@ -584,7 +584,25 @@ namespace ChessApp
             }
         }
 
-
+        private void DisplayOutcome()
+        {
+            if (NewBoard.WhiteinCheckmate())
+            {
+                Winner.Text = "Black wins";
+            }
+            else if (NewBoard.BlackinCheckmate())
+            {
+                Winner.Text = "White wins";
+            }
+            else if (NewBoard.inStalemate())
+            {
+                Winner.Text = "Stalemate";
+            }
+            else
+            {
+                Winner.Text = "";
+            }
+        }
 
 
 
@@ -613,6 +631,8 @@ namespace ChessApp
             NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
         }
 
         private void Promote_to_Knight(object sender, RoutedEventArgs e)
@@ -623,6 +643,8 @@ namespace ChessApp
             NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
         }
 
         private void Promote_to_Bishop(object sender, RoutedEventArgs e)
@@ -633,6 +655,8 @@ namespace ChessApp
             NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
         }
 
         private void Promote_to_Queen(object sender, RoutedEventArgs e)
@@ -643,6 +667,8 @@ namespace ChessApp
             NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
             UpdateBoard();
             BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
         }
         private void promotePawn(int X, int Y, bool IsWhite)
         {
@@ -778,22 +804,7 @@ namespace ChessApp
                         BoardUnpaused = false;
                     }
 
-                    if (NewBoard.WhiteinCheckmate())
-                    {
-                        Winner.Text = "Black wins";
-                    }
-                    else if (NewBoard.BlackinCheckmate())
-                    {
-                        Winner.Text = "White wins";
-                    }
-                    else if (NewBoard.inStalemate())
-                    {
-                        Winner.Text = "Stalemate";
-                    }
-                    else 
-                    {
-                        Winner.Text = "";
-                    }
+                    DisplayOutcome();
 
                     UpdateBoard();
                 }
