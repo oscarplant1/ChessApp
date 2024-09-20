@@ -177,7 +177,6 @@ namespace ChessApp
             AddStackPanels();
             AddImages();
             AddButtons();
-            //NewBoard.TestGrid();
 
             if (NewBoard.GetMoveCounter() % 2 == 0)
             {
@@ -584,6 +583,7 @@ namespace ChessApp
             }
         }
 
+        //Update the window displaying if their is a winner
         private void DisplayOutcome()
         {
             if (NewBoard.WhiteinCheckmate())
@@ -771,12 +771,15 @@ namespace ChessApp
 
 
         //Button Control
+        //First button click sets PieceToMove, second calls MovePiece with PieceToMove and the last button click as parameters
         private void ifSquareClicked(int currentX, int currentY)
         {
             if (BoardUnpaused)
             {
+                //If PieceToMove has no value and the selected square isn't blank
                 if (NewBoard.GetPieceToMove()[0] == 8 & NewBoard.GetPieceToMove()[1] == 8 & !NewBoard.IsSquareBlank(currentX, currentY))
                 {
+                    //If a white piece is selected it must be whites move and vice versa
                     if ((NewBoard.GetIsWhiteAt(currentX, currentY) & NewBoard.GetMoveCounter() % 2 == 0) || (!NewBoard.GetIsWhiteAt(currentX, currentY) & NewBoard.GetMoveCounter() % 2 == 1))
                     {
                         NewBoard.SetPieceToMove([currentX, currentY]);
@@ -789,21 +792,26 @@ namespace ChessApp
                         return;
                     }
                 }
+                //If the same square is selected twice, deselect the square
                 else if (NewBoard.GetPieceToMove()[0] == currentX & NewBoard.GetPieceToMove()[1] == currentY)
                 {
                     NewBoard.SetPieceToMove([8, 8]);
                     UpdateBoard();
                     return;
                 }
+                //No restrictions required when selecting square to move to, handled in Board class
                 else if ((NewBoard.GetPieceToMove()[0]<8 & NewBoard.GetPieceToMove()[1]<8))
                 {
                     NewBoard.MovePiece(NewBoard.GetPieceToMove(), [currentX, currentY]);
+
+                    //If a pawn is now at the top of bottom of the board, it needs to be promoted
                     if (NewBoard.GetPieceTypeAt(currentX, currentY) == 'P' & (currentX == 0 || currentX == 7))
                     {
                         promotePawn(currentX, currentY, NewBoard.GetIsWhiteAt(currentX, currentY));
                         BoardUnpaused = false;
                     }
 
+                    //Check for a winner
                     DisplayOutcome();
 
                     UpdateBoard();
@@ -812,6 +820,8 @@ namespace ChessApp
         }
 
 
+
+        //One method for each square that can be clicked
 
         ///NEW COLUMN
 

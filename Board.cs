@@ -23,13 +23,9 @@ namespace Chess
         private int[] PieceToMove = [8, 8]; //Use [8,8] as a null variable as grid doesn't go past [7,7]
         private int[] WhiteKingPosition = [7, 4];
         private int[] BlackKingPosition = [0, 4];
-        private int[][] knightMoves = [];
         private Piece[,] Grid = new Piece [8, 8];
         private Piece BlankPiece = new Piece(false, 'X');
         private List<Piece> PiecesTaken = new List<Piece>();
-        private int multiplier = 1;
-        private bool isWhitesMove =true;
-
 
         //Get Methods
         public int GetMoveCounter()
@@ -37,29 +33,9 @@ namespace Chess
             return MoveCounter;
         }
 
-        public int[] GetWhiteKingPosition()
-        {
-            return WhiteKingPosition;
-        }
-
-        public int[] GetBlackKingPosition()
-        {
-            return BlackKingPosition;
-        }
-
         public int[] GetPieceToMove()
         {
             return PieceToMove;
-        }
-
-        public int GetMultiplier()
-        {
-            return multiplier;
-        }
-
-        public bool GetisWhitesMove()
-        {
-            return isWhitesMove;
         }
 
         //Get Methods for Piece objects at chosen square
@@ -73,16 +49,7 @@ namespace Chess
             return Grid[X, Y].GetIsWhite();
         }
 
-        public int GetPromotedPawnAt(int X, int Y)
-        {
-            return Grid[X, Y].GetPromotedPawn();
-        }
-
         //Set Methods
-        public void SetMoveCounter(int Moves)
-        {
-            MoveCounter = Moves;
-        }
 
         public void SetPieceTypeAt(int X, int Y, char PieceType)
         {
@@ -94,29 +61,9 @@ namespace Chess
             Grid[X,Y].SetPromotedPawn(Promoted);
         }
 
-        public void SetWhiteKingPosition(int[] WhiteKing)
-        {
-            WhiteKingPosition = WhiteKing;
-        }
-
-        public void SetBlackKingPosition(int[] BlackKing)
-        {
-            BlackKingPosition = BlackKing;
-        }
-
         public void SetPieceToMove(int[] Piece)
         {
             PieceToMove = Piece;
-        }
-
-        public void SetMultiplier(int Multiplier)
-        {
-            multiplier = Multiplier;
-        }
-
-        public void SetIsWhitesMove(bool WhitesMove)
-        {
-            isWhitesMove = WhitesMove;
         }
 
         //Methods
@@ -132,6 +79,7 @@ namespace Chess
                 return false;
             }
         }
+
 
         //Sets board with Pieces in starting positions
         public void SetBoard()
@@ -263,6 +211,7 @@ namespace Chess
             Console.WriteLine("--------------------------------------------------------------");
         }
 
+        //Outputs contents of MovesDone and PiecesTaken Lists - Debugging only
         public void OutputLists()
         {
             
@@ -305,6 +254,10 @@ namespace Chess
 
         public void MovePiece(int[] Piece, int[] Destination)
         {
+            int multiplier;
+            bool isWhitesMove;
+
+            //Define a multiplier that will change the direction for the current move
             if (MoveCounter % 2 == 0)
             {
                 isWhitesMove = true;
@@ -328,12 +281,14 @@ namespace Chess
             
             char CurrentPieceType = SelectedPiece.GetPieceType();
             
+            //Only allows a piece to move if it is their turn
             if(MoveCounter % 2 == 0 & !SelectedPiece.GetIsWhite() || MoveCounter % 2 == 1 & SelectedPiece.GetIsWhite())
             {
                 PieceToMove = [8, 8];
                 return;
             }
 
+            //Can't take a piece of the same colour
             if (SelectedPiece.GetIsWhite() != TargetSquare.GetIsWhite() || TargetSquare.GetPieceType() == 'X')
             {
                 switch (CurrentPieceType)
@@ -425,7 +380,10 @@ namespace Chess
                             return;
                         }
                         break;
+                    //Knight rules
                     case 'N':
+                        int[][] knightMoves = [];
+                        //Explicitily define the 8 possible moves a knight can make
                         knightMoves = [[Piece[0]-2,Piece[1]-1], [Piece[0]-2, Piece[1]+1], [Piece[0]-1, Piece[1]+2], [Piece[0]+1, Piece[1]+2], [Piece[0]+2, Piece[1]+1], [Piece[0]+2, Piece[1]-1], [Piece[0]+1, Piece[1]-2], [Piece[0]-1, Piece[1]-2]];
                         bool found = false;
                         for (int i = 0; i < knightMoves.Length; i++)
@@ -442,6 +400,7 @@ namespace Chess
                             return;
                         }
                         break;
+                    //Bishop rules
                     case 'B':
                         if (Math.Abs(Piece[0] - Destination[0]) == Math.Abs(Piece[1] - Destination[1]))
                         {
@@ -461,6 +420,7 @@ namespace Chess
                             return;
                         }
                         break;
+                    //Queen rules
                     case 'Q':
                         if (Math.Abs(Piece[0] - Destination[0]) == Math.Abs(Piece[1] - Destination[1])|| Piece[0] == Destination[0] || Piece[1] == Destination[1])
                         {
@@ -480,7 +440,9 @@ namespace Chess
                             return;
                         }
                         break;
+                    //King rules
                     case 'K':
+                        //Ordinary king movement
                         if (Math.Abs(Destination[0] - Piece[0])<=1 & Math.Abs(Destination[1] - Piece[1])<=1)
                         {
                             MovePieceObject(Piece, Destination);
@@ -659,20 +621,24 @@ namespace Chess
             }
         }
 
+        //Move the pieces in the predefined Grid, given two pairs of coordinates
         public void MovePieceObject(int[] Piece, int[] Destination)
         {
             Piece SelectedPiece = Grid[Piece[0], Piece[1]];
             Piece TargetSquare = Grid[Destination[0], Destination[1]];
 
+            //Increment move counter for both piece and board
             SelectedPiece.SetMovesDone(SelectedPiece.GetMovesDone() + 1);
             MoveCounter++;
 
             TargetSquare.SetIsWhite(!SelectedPiece.GetIsWhite());
             PiecesTaken.Add(TargetSquare);
 
+            //Moving piece object in grid
             Grid[Piece[0], Piece[1]] = BlankPiece;
             Grid[Destination[0], Destination[1]] = SelectedPiece;
 
+            //Storing the MoveCounter and the if the board is flipped along with the coordinates of the move
             if (isFlipped)
             {
                 MovesDone.Add([Piece, Destination, [1,MoveCounter]]);
@@ -683,6 +649,7 @@ namespace Chess
             }
             PieceToMove = [8, 8];
 
+            //Undo the move if in check
             updateIsChecking();
 
             if (MoveCounter % 2 == 1 & WhiteinCheck())
@@ -693,10 +660,6 @@ namespace Chess
             {
                 undoLastMove();
             }
-
-            //TestGrid();
-            //OutputLists();
-            //Console.WriteLine(MoveCounter);
         }
 
 
@@ -704,9 +667,13 @@ namespace Chess
 
 
         //Check and Checkmate logic
+
+        //Updates the isChecking attribute of every non-blank piece on the board
         public void updateIsChecking()
         {
             Piece PieceToUpdate;
+
+            int multiplier;
 
             if (isFlipped)
             {
@@ -717,6 +684,7 @@ namespace Chess
                 multiplier = 1;
             }
 
+            //Get the positions of the kings
             WhiteKingPosition = findWhiteKing();
             BlackKingPosition = findBlackKing();
 
@@ -726,8 +694,10 @@ namespace Chess
                 {
                     PieceToUpdate = Grid[X, Y];
 
+                    //The current piece is white
                     if (PieceToUpdate.GetIsWhite()&PieceToUpdate.GetPieceType()!='X')
                     {
+                        //Checking if the current piece is attacking the black king is white depending on piece type
                         switch (PieceToUpdate.GetPieceType())
                         {
                             case 'P':
@@ -816,8 +786,10 @@ namespace Chess
                                 break;
                         }
                     }
+                    //The current piece is black
                     else if (PieceToUpdate.GetPieceType()!='X')
                     {
+                        //Checking if the current piece is attacking the white king is white depending on piece type
                         switch (PieceToUpdate.GetPieceType())
                         {
                             case 'P':
@@ -914,8 +886,11 @@ namespace Chess
         {
             updateIsChecking();
 
+            //Dont do anything if its the first move
             if (PiecesTaken.Count() > 0)
             {
+
+                //Retrieve all information from the end of the MovesDone list and the PiecesTaken list
                 int CurrentMoveCount = MovesDone.Last()[2][1];
 
                 bool isFlippedNow = isFlipped;
@@ -933,6 +908,7 @@ namespace Chess
                     isFlippedWhenMoved = false;
                 }
 
+                //If the board is flipped compared to when the move was made, need to adjust the piece positions
                 if (isFlippedNow != isFlippedWhenMoved)
                 {
                     Piece[0] = 7 - Piece[0];
@@ -942,27 +918,33 @@ namespace Chess
                     Destination[1] = 7 - Destination[1];
                 }
 
+                //Get the piece from pieces taken to add back to the board
                 Piece PieceToReplace = PiecesTaken.Last();
 
+                //Decrement piece move counter
                 Grid[Piece[0], Piece[1]].SetMovesDone(Grid[Piece[0], Piece[1]].GetMovesDone() - 1);
 
                 Piece temp = Grid[Piece[0], Piece[1]];
-
+                //Move the pieces back
                 Grid[Piece[0], Piece[1]] = PieceToReplace;
                 Grid[Destination[0], Destination[1]] = temp;
 
+                //Undo pawn promotion
                 if (Grid[Destination[0], Destination[1]].GetPromotedPawn() == MoveCounter)
                 {
                     Grid[Destination[0], Destination[1]].SetPieceType('P');
                     Grid[Destination[0], Destination[1]].SetPromotedPawn(-1);
                 }
 
+                //Decrement the move counter
                 MoveCounter--;
 
+                //Remove the undone move and piece taken from the end of the list
                 PiecesTaken.RemoveAt(PiecesTaken.Count() - 1);
                 MovesDone.RemoveAt(MovesDone.Count() - 1);
 
-                
+                //Some moves are made up of two moves (castling and En passent) meaning sometimes two moves need to be undone.
+                //If the movecounter in the MovesDone list is the same for two moves - repeat the above
                 if (PiecesTaken.Count() > 0)
                 {
                     if (CurrentMoveCount == MovesDone.Last()[2][1])
@@ -1000,12 +982,10 @@ namespace Chess
                 }
 
                 updateIsChecking();
-
-                //OutputLists();
-                //Console.WriteLine(MoveCounter);
             }
         }
 
+        //Scan the board for any black pieces with the isChecking attribute set to true
         public bool WhiteinCheck()
         {
             for (int i = 0; i < 8; i++)
@@ -1023,6 +1003,7 @@ namespace Chess
             return false;
         }
 
+        //Scan the board for any white pieces with the isChecking attribute set to true
         public bool BlackinCheck()
         {
             for (int i = 0; i < 8; i++)
@@ -1040,8 +1021,10 @@ namespace Chess
             return false;
         }
 
+        //Returns true if no move can be found for whoevers move it is given they are not in check
         public bool inStalemate()
         {
+            //Nobody is in check
             if(!BlackinCheck() & !WhiteinCheck())
             {
                 //If its whites move, try to find a possible move
@@ -1059,8 +1042,10 @@ namespace Chess
                                 {
                                     for (int l = 0; l < 8; l++)
                                     {
+                                        //Attempt move, if unsuccessful, no move will be done
                                         MovePiece([i, j], [k, l]);
-
+                                        
+                                        //If successful undo the move and return false
                                         if (Grid[i, j].GetPieceType() == 'X')
                                         {
                                             undoLastMove();
@@ -1088,8 +1073,10 @@ namespace Chess
                                 {
                                     for (int l = 0; l < 8; l++)
                                     {
+                                        //Attempt move, if unsuccessful, no move will be done
                                         MovePiece([i, j], [k, l]);
 
+                                        //If successful undo the move and return false
                                         if (Grid[i, j].GetPieceType() == 'X')
                                         {
                                             undoLastMove();
@@ -1107,6 +1094,7 @@ namespace Chess
             return false;
         }
 
+        //Returns true if no move can be found for white and white is in check
         public bool WhiteinCheckmate()
         {
             if (WhiteinCheck())
@@ -1123,9 +1111,11 @@ namespace Chess
                             {
                                 for (int l = 0; l < 8; l++)
                                 {
+                                    //Attempt move, if unsuccessful, no move will be done
                                     MovePiece([i, j], [k, l]);
-                                    
-                                    if(Grid[i, j].GetPieceType() == 'X')
+
+                                    //If successful undo the move and return false
+                                    if (Grid[i, j].GetPieceType() == 'X')
                                     {
                                         undoLastMove();
                                         return false;
@@ -1140,8 +1130,7 @@ namespace Chess
             return false;
         }
 
-
-
+        //Returns true if no move can be found for black and black is in check
         public bool BlackinCheckmate()
         {
             if (BlackinCheck())
@@ -1158,8 +1147,10 @@ namespace Chess
                             {
                                 for (int l = 0; l < 8; l++)
                                 {
+                                    //Attempt move, if unsuccessful, no move will be done
                                     MovePiece([i, j], [k, l]);
 
+                                    //If successful undo the move and return false
                                     if (Grid[i, j].GetPieceType() == 'X')
                                     {
                                         undoLastMove();
@@ -1273,8 +1264,10 @@ namespace Chess
             }
         }
 
+        //Method that swaps every piece with its diagonal opposite, equivalent to rotating the board 180 degrees
         public void FlipBoard()
         {
+            //Only need to loop over the top half of the board
             for (int i = 0; i < 4; i++)
             {
                 for(int j = 0;j < 8; j++)
@@ -1283,13 +1276,14 @@ namespace Chess
                 }
             }
 
-            //TestGrid();
-
+            //Update king positions
             int[] WhiteKingPosition = findWhiteKing();
             int[] BlackKingPosition = findBlackKing();
 
             isFlipped = !isFlipped;
         }
+
+        //Swaps two pieces in the grid
         public void SwapPieces(int[] Piece1, int[] Piece2)
         {
             Piece temp = Grid[Piece1[0],Piece1[1]];
@@ -1297,7 +1291,7 @@ namespace Chess
             Grid[Piece2[0], Piece2[1]] = temp;
         }
 
-        //Returns the king positions in the form [[WhiteKingPosition],[BlackKingPosition]]
+        //Returns the white king position
         public int[] findWhiteKing()
         {
             for (int i = 0; i < 8; i++)
@@ -1317,6 +1311,7 @@ namespace Chess
             return [8,8];
         }
 
+        //Returns the black king position
         public int[] findBlackKing()
         {
             for (int i = 0; i < 8; i++)
