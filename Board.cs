@@ -12,19 +12,65 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
+///<summary>
+/// Main class containing a grid of piece objects and methods that act on that grid to move pieces and apply
+/// the logic and rules of chess.
+/// </summary>
+///<remarks>
+/// </remarks>
+
 namespace Chess
 {
     public class Board
     {
         //Attributes
+
+        /// <summary>
+        /// Increments everytime a move is made
+        /// </summary>
         private int MoveCounter = 0;
+
+        /// <summary>
+        /// Is false if white is at the bottom and true if white is at the top
+        /// </summary>
         private bool isFlipped = false;
+
+        /// <summary>
+        /// Everytime a move is made the two pairs of coordinates are added to this list
+        ///	along with the value of isFlipped at the time of the move, and the move counter
+        ///	at the time
+        /// </summary>
         private List <int[][]> MovesDone = new List<int[][]>();
-        private int[] PieceToMove = [8, 8]; //Use [8,8] as a null variable as grid doesn't go past [7,7]
+
+        /// <summary>
+        /// Variable that stores the first button clicked, ie the selected piece
+        /// </summary>
+        private int[] PieceToMove = [8, 8];
+
+        /// <summary>
+        /// Tracks the white king
+        /// </summary>
         private int[] WhiteKingPosition = [7, 4];
+
+        /// <summary>
+        /// Tracks the black king
+        /// </summary>
         private int[] BlackKingPosition = [0, 4];
+
+        /// <summary>
+        /// The 8x8 grid filled with piece objects on which most methods act
+        /// </summary>
         private Piece[,] Grid = new Piece [8, 8];
+
+        /// <summary>
+        /// Useful to have a blank piece to add where needed
+        /// </summary>
         private Piece BlankPiece = new Piece(false, 'X');
+
+        /// <summary>
+        /// When a Piece is taken, it gets added to this list. Includes blank pieces in order
+        ///	to remain in sync with MovesDoneMoveCounter
+        /// </summary>
         private List<Piece> PiecesTaken = new List<Piece>();
 
         //Get Methods
@@ -68,6 +114,16 @@ namespace Chess
 
         //Methods
 
+
+
+        /// <summary>
+        /// Returns true if at the given coordinates in the grid, the piecetype is blank
+        /// </summary>
+        /// <param X coordinate ="X"></param>
+        /// <param Y coordinate ="Y"></param>
+        /// <returns>
+        /// Bool depending on Grid attribute
+        /// </returns>
         public bool IsSquareBlank(int X, int Y)
         {
             if (Grid[X, Y].GetPieceType() == 'X')
@@ -80,8 +136,9 @@ namespace Chess
             }
         }
 
-
-        //Sets board with Pieces in starting positions
+        /// <summary>
+        /// Populates the grid with pieces in the correct starting position
+        /// </summary>
         public void SetBoard()
         {
             PiecesTaken = new List<Piece>();
@@ -194,7 +251,9 @@ namespace Chess
             }
         }
 
-        //Outputs current board state to console - Debugging only
+        /// <summary>
+        /// Outputs the grid to console, for debugging only
+        /// </summary>
         public void TestGrid()
         {
             for (int i = 0; i < Grid.GetLength(0); i++)
@@ -211,7 +270,9 @@ namespace Chess
             Console.WriteLine("--------------------------------------------------------------");
         }
 
-        //Outputs contents of MovesDone and PiecesTaken Lists - Debugging only
+        /// <summary>
+        /// Outputs the contents of MovesDone and PiecesTaken to console, for debugging only
+        /// </summary>
         public void OutputLists()
         {
             
@@ -241,8 +302,6 @@ namespace Chess
                 Console.WriteLine();
                 Console.WriteLine(CurrentPieceTakenType + " " + PiecesTaken[i].GetIsWhite());
                 Console.WriteLine();
-                //Console.WriteLine(MoveCounter);
-                //Console.WriteLine();
                 Console.WriteLine("--------------------------------------------");
                 Console.WriteLine();
             
@@ -252,6 +311,12 @@ namespace Chess
             }
         }
 
+
+        /// <summary>
+        /// Calls the movePieceObject method after checking if the move is allowed
+        /// </summary>
+        /// <param Piece to attempt to move="Piece"></param>
+        /// <param Square to attempt move to="Destination"></param>
         public void MovePiece(int[] Piece, int[] Destination)
         {
             int multiplier;
@@ -457,7 +522,7 @@ namespace Chess
                             }
                         }
                         //Castle
-                        else if (Math.Abs(Destination[1] - Piece[1]) == 2 & Destination[0] == Piece[0] & SelectedPiece.GetMovesDone()==0)
+                        else if (Math.Abs(Destination[1] - Piece[1]) == 2 & Destination[0] == Piece[0] & SelectedPiece.GetMovesDone()==0 & !WhiteinCheck() & !BlackinCheck())
                         {
                             bool Allowed;
                             //King Side - unflipped
@@ -621,7 +686,11 @@ namespace Chess
             }
         }
 
-        //Move the pieces in the predefined Grid, given two pairs of coordinates
+        /// <summary>
+        /// Moves the Piece in the grid from the first pair of coordinates to the second pair of coordinates
+        /// </summary>
+        /// <param Square of piece to move="Piece"></param>
+        /// <param Square to move piece to="Destination"></param>
         public void MovePieceObject(int[] Piece, int[] Destination)
         {
             Piece SelectedPiece = Grid[Piece[0], Piece[1]];
@@ -668,7 +737,10 @@ namespace Chess
 
         //Check and Checkmate logic
 
-        //Updates the isChecking attribute of every non-blank piece on the board
+        /// <summary>
+        /// Scans the whole grid array and if a non-blank piece is attacking the king of
+        /// opposite colour, if so the isChecking attribute of the piece is set to true
+        /// </summary>
         public void updateIsChecking()
         {
             Piece PieceToUpdate;
@@ -882,6 +954,9 @@ namespace Chess
             }
         }
 
+        /// <summary>
+        /// Undoes the last move using the MovesDone and PiecesTaken lists
+        /// </summary>
         public void undoLastMove()
         {
             updateIsChecking();
@@ -985,7 +1060,12 @@ namespace Chess
             }
         }
 
-        //Scan the board for any black pieces with the isChecking attribute set to true
+        /// <summary>
+        /// Returns true if any black non-blank piece's isChecking attribute is true
+        /// </summary>
+        /// <returns>
+        /// Bool, true if white is in check, false if not
+        /// </returns>
         public bool WhiteinCheck()
         {
             for (int i = 0; i < 8; i++)
@@ -1003,7 +1083,12 @@ namespace Chess
             return false;
         }
 
-        //Scan the board for any white pieces with the isChecking attribute set to true
+        /// <summary>
+        /// Returns true if any white non-blank piece's isChecking attribute is true
+        /// </summary>
+        /// <returns>
+        /// Bool, true if black is in check, false if not
+        /// </returns>
         public bool BlackinCheck()
         {
             for (int i = 0; i < 8; i++)
@@ -1021,7 +1106,12 @@ namespace Chess
             return false;
         }
 
-        //Returns true if no move can be found for whoevers move it is given they are not in check
+        /// <summary>
+        /// Checks if their is a possible move, returns true if not and nobody is in check
+        /// </summary>
+        /// <returns>
+        /// Bool, true if the game has been drawn, false otherwise
+        /// </returns>
         public bool inStalemate()
         {
             //Nobody is in check
@@ -1094,7 +1184,12 @@ namespace Chess
             return false;
         }
 
-        //Returns true if no move can be found for white and white is in check
+        /// <summary>
+        /// Returns true if unable to find a move for white and WhiteinCheck returns true
+        /// </summary>
+        /// <returns>
+        /// Bool, true if black has won, false otherwise
+        /// </returns>
         public bool WhiteinCheckmate()
         {
             if (WhiteinCheck())
@@ -1130,7 +1225,12 @@ namespace Chess
             return false;
         }
 
-        //Returns true if no move can be found for black and black is in check
+        /// <summary>
+        /// Returns true if unable to find a move for black and BlackinCheck returns true
+        /// </summary>
+        /// <returns>
+        /// Bool, true if white has won, false otherwise
+        /// </returns>
         public bool BlackinCheckmate()
         {
             if (BlackinCheck())
@@ -1170,7 +1270,15 @@ namespace Chess
 
 
 
-        //Returns false if there is a piece between two given points
+        /// <summary>
+        /// Returns false if there is a piece between the two pairs of coordinates, vertically
+        /// horizontally and diagonally
+        /// </summary>
+        /// <param 1st pair of coordinates ="Piece"></param>
+        /// <param 2nd pair of coordinates ="Destination"></param>
+        /// <returns>
+        /// False if there is a piece between, true if not
+        /// </returns>
         public bool CheckBetween(int[] Piece, int[] Destination)
         {
             int PieceX = Piece[0];
@@ -1264,7 +1372,9 @@ namespace Chess
             }
         }
 
-        //Method that swaps every piece with its diagonal opposite, equivalent to rotating the board 180 degrees
+        /// <summary>
+        /// Swaps every piece in the grid with its diagonal opposite
+        /// </summary>
         public void FlipBoard()
         {
             //Only need to loop over the top half of the board
@@ -1283,7 +1393,11 @@ namespace Chess
             isFlipped = !isFlipped;
         }
 
-        //Swaps two pieces in the grid
+        /// <summary>
+        /// Swaps two pieces in the grid
+        /// </summary>
+        /// <param 1st Piece="Piece1"></param>
+        /// <param 2nd Piece="Piece2"></param>
         public void SwapPieces(int[] Piece1, int[] Piece2)
         {
             Piece temp = Grid[Piece1[0],Piece1[1]];
@@ -1291,7 +1405,12 @@ namespace Chess
             Grid[Piece2[0], Piece2[1]] = temp;
         }
 
-        //Returns the white king position
+        /// <summary>
+        /// Scans the board to find a piece that is both white and has PieceType 'K'
+        /// </summary>
+        /// <returns>
+        /// Coordinates of the white king
+        /// </returns>
         public int[] findWhiteKing()
         {
             for (int i = 0; i < 8; i++)
@@ -1311,7 +1430,12 @@ namespace Chess
             return [8,8];
         }
 
-        //Returns the black king position
+        /// <summary>
+        /// Scans the board to find a piece that is both black and has PieceType 'K'
+        /// </summary>
+        /// <returns>
+        /// Coordinates of the black king
+        /// </returns>
         public int[] findBlackKing()
         {
             for (int i = 0; i < 8; i++)

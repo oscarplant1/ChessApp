@@ -15,6 +15,12 @@ using System.Diagnostics.Eventing.Reader;
 using System;
 using System.Drawing;
 
+///<summary>
+///
+/// </summary>
+///<remarks>
+/// </remarks>
+
 namespace ChessApp
 {
     public partial class MainWindow : Window
@@ -22,8 +28,19 @@ namespace ChessApp
         // Create the Board object
         Board NewBoard = new Board();
 
+        /// <summary>
+        /// Updated whenever a button is clicked to the value of the X coordinate of the clicked square
+        /// </summary>
         private int currentX = 0;
+
+        /// <summary>
+        /// Updated whenever a button is clicked to the value of the Y coordinate of the clicked square
+        /// </summary>
         private int currentY = 0;
+
+        /// <summary>
+        /// Prevents any changes to the board if true
+        /// </summary>
         private bool BoardUnpaused = true;
 
         public MainWindow()
@@ -39,7 +56,7 @@ namespace ChessApp
             Image BlackPawn = new Image();
             BlackPawn.Width = 40;
             BlackPawn.Height = 40;
-            ImageSource BlackPawnImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-pawn.png"));
+            ImageSource BlackPawnImage = new BitmapImage(new Uri("/Images/black-pawn.png", UriKind.Relative));
             BlackPawn.Source = BlackPawnImage;
             return BlackPawn;
         }
@@ -49,7 +66,7 @@ namespace ChessApp
             Image BlackRook = new Image();
             BlackRook.Width = 40;
             BlackRook.Height = 40;
-            ImageSource BlackRookImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-rook.png"));
+            ImageSource BlackRookImage = new BitmapImage(new Uri("/Images/black-rook.png", UriKind.Relative));
             BlackRook.Source = BlackRookImage;
             return BlackRook;
         }
@@ -59,7 +76,7 @@ namespace ChessApp
             Image BlackKnight = new Image();
             BlackKnight.Width = 40;
             BlackKnight.Height = 40;
-            ImageSource BlackKnightImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-knight.png"));
+            ImageSource BlackKnightImage = new BitmapImage(new Uri("/Images/black-knight.png", UriKind.Relative));
             BlackKnight.Source = BlackKnightImage;
             return BlackKnight;
         }
@@ -69,7 +86,7 @@ namespace ChessApp
             Image BlackBishop = new Image();
             BlackBishop.Width = 40;
             BlackBishop.Height = 40;
-            ImageSource BlackBishopImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-bishop.png"));
+            ImageSource BlackBishopImage = new BitmapImage(new Uri("/Images/black-bishop.png", UriKind.Relative));
             BlackBishop.Source = BlackBishopImage;
             return BlackBishop;
         }
@@ -79,7 +96,7 @@ namespace ChessApp
             Image BlackQueen = new Image();
             BlackQueen.Width = 40;
             BlackQueen.Height = 40;
-            ImageSource BlackQueenImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-queen.png"));
+            ImageSource BlackQueenImage = new BitmapImage(new Uri("/Images/black-queen.png", UriKind.Relative));
             BlackQueen.Source = BlackQueenImage;
             return BlackQueen;
         }
@@ -89,7 +106,7 @@ namespace ChessApp
             Image BlackKing = new Image();
             BlackKing.Width = 40;
             BlackKing.Height = 40;
-            ImageSource BlackKingImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/black-king.png"));
+            ImageSource BlackKingImage = new BitmapImage(new Uri("/Images/black-king.png", UriKind.Relative));
             BlackKing.Source = BlackKingImage;
             return BlackKing;
         }
@@ -99,7 +116,7 @@ namespace ChessApp
             Image WhitePawn = new Image();
             WhitePawn.Width = 40;
             WhitePawn.Height = 40;
-            ImageSource WhitePawnImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-pawn.png"));
+            ImageSource WhitePawnImage = new BitmapImage(new Uri("/Images/white-pawn.png", UriKind.Relative));
             WhitePawn.Source = WhitePawnImage;
             return WhitePawn;
         }
@@ -109,7 +126,7 @@ namespace ChessApp
             Image WhiteRook = new Image();
             WhiteRook.Width = 40;
             WhiteRook.Height = 40;
-            ImageSource WhiteRookImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-rook.png"));
+            ImageSource WhiteRookImage = new BitmapImage(new Uri("/Images/white-rook.png", UriKind.Relative));
             WhiteRook.Source = WhiteRookImage;
             return WhiteRook;
         }
@@ -119,7 +136,7 @@ namespace ChessApp
             Image WhiteKnight = new Image();
             WhiteKnight.Width = 40;
             WhiteKnight.Height = 40;
-            ImageSource WhiteKnightImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-knight.png"));
+            ImageSource WhiteKnightImage = new BitmapImage(new Uri("/Images/white-knight.png", UriKind.Relative));
             WhiteKnight.Source = WhiteKnightImage;
             return WhiteKnight;
         }
@@ -129,7 +146,7 @@ namespace ChessApp
             Image WhiteBishop = new Image();
             WhiteBishop.Width = 40;
             WhiteBishop.Height = 40;
-            ImageSource WhiteBishopImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-bishop.png"));
+            ImageSource WhiteBishopImage = new BitmapImage(new Uri("/Images/white-bishop.png", UriKind.Relative));
             WhiteBishop.Source = WhiteBishopImage;
             return WhiteBishop;
         }
@@ -139,7 +156,7 @@ namespace ChessApp
             Image WhiteQueen = new Image();
             WhiteQueen.Width = 40;
             WhiteQueen.Height = 40;
-            ImageSource WhiteQueenImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-queen.png"));
+            ImageSource WhiteQueenImage = new BitmapImage(new Uri("/Images/white-queen.png", UriKind.Relative));
             WhiteQueen.Source = WhiteQueenImage;
             return WhiteQueen;
         }
@@ -149,7 +166,7 @@ namespace ChessApp
             Image WhiteKing = new Image();
             WhiteKing.Width = 40;
             WhiteKing.Height = 40;
-            ImageSource WhiteKingImage = new BitmapImage(new Uri("C:/Users/oscar/OneDrive/Desktop/C#/ChessApp/white-king.png"));
+            ImageSource WhiteKingImage = new BitmapImage(new Uri("/Images/white-king.png", UriKind.Relative));
             WhiteKing.Source = WhiteKingImage;
             return WhiteKing;
         }

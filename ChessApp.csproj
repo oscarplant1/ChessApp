@@ -23,6 +23,7 @@
     <None Remove="black-knight.png" />
     <None Remove="black-pawn.png" />
     <None Remove="black-queen.png" />
+    <None Remove="Images\black-rook.png" />
     <None Remove="white-bishop.png" />
     <None Remove="white-king.png" />
     <None Remove="white-knight.png" />
@@ -32,45 +33,42 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="black-bishop.png">
+    <Resource Include="Images\black-bishop.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="black-king.png">
+    <Resource Include="Images\black-king.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="black-knight.png">
+    <Resource Include="Images\black-knight.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="black-pawn.png">
+    <Resource Include="Images\black-pawn.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="black-queen.png">
+    <Resource Include="Images\black-queen.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="white-bishop.png">
+    <Resource Include="Images\black-rook.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="white-king.png">
+    <Resource Include="Images\white-bishop.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="white-knight.png">
+    <Resource Include="Images\white-king.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="white-pawn.png">
+    <Resource Include="Images\white-knight.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="white-queen.png">
+    <Resource Include="Images\white-pawn.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="white-rook.png">
+    <Resource Include="Images\white-queen.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="black-rook.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Resource Include="Images\white-rook.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
