@@ -543,16 +543,21 @@ namespace Chess
                                 if (Allowed)
                                 {
                                     MovePieceObject(Piece, Destination);
-                                    MoveCounter--;
-                                    MovePieceObject([Destination[0], 7], [Destination[0], 5]);
 
-                                    if (SelectedPiece.GetIsWhite())
+
+                                    if (Grid[Piece[0], Piece[1]].GetPieceType() != 'K')
                                     {
-                                        WhiteKingPosition = Destination;
-                                    }
-                                    else
-                                    {
-                                        BlackKingPosition = Destination;
+                                        MoveCounter--;
+                                        MovePieceObject([Destination[0], 7], [Destination[0], 5]);
+
+                                        if (SelectedPiece.GetIsWhite())
+                                        {
+                                            WhiteKingPosition = Destination;
+                                        }
+                                        else
+                                        {
+                                            BlackKingPosition = Destination;
+                                        }
                                     }
                                 }
                                 else
@@ -579,16 +584,20 @@ namespace Chess
                                 if (Allowed)
                                 {
                                     MovePieceObject(Piece, Destination);
-                                    MoveCounter--;
-                                    MovePieceObject([Destination[0], 0], [Destination[0], 3]);
 
-                                    if (SelectedPiece.GetIsWhite())
+                                    if (Grid[Piece[0], Piece[1]].GetPieceType() != 'K')
                                     {
-                                        WhiteKingPosition = Destination;
-                                    }
-                                    else
-                                    {
-                                        BlackKingPosition = Destination;
+                                        MoveCounter--;
+                                        MovePieceObject([Destination[0], 0], [Destination[0], 3]);
+
+                                        if (SelectedPiece.GetIsWhite())
+                                        {
+                                            WhiteKingPosition = Destination;
+                                        }
+                                        else
+                                        {
+                                            BlackKingPosition = Destination;
+                                        }
                                     }
                                 }
                                 else
@@ -615,16 +624,20 @@ namespace Chess
                                 if (Allowed)
                                 {
                                     MovePieceObject(Piece, Destination);
-                                    MoveCounter--;
-                                    MovePieceObject([Destination[0], 0], [Destination[0], 2]);
 
-                                    if (SelectedPiece.GetIsWhite())
+                                    if (Grid[Piece[0], Piece[1]].GetPieceType() != 'K')
                                     {
-                                        WhiteKingPosition = Destination;
-                                    }
-                                    else
-                                    {
-                                        BlackKingPosition = Destination;
+                                        MoveCounter--;
+                                        MovePieceObject([Destination[0], 0], [Destination[0], 2]);
+
+                                        if (SelectedPiece.GetIsWhite())
+                                        {
+                                            WhiteKingPosition = Destination;
+                                        }
+                                        else
+                                        {
+                                            BlackKingPosition = Destination;
+                                        }
                                     }
                                 }
                                 else
@@ -652,16 +665,20 @@ namespace Chess
                                 if (Allowed)
                                 {
                                     MovePieceObject(Piece, Destination);
-                                    MoveCounter--;
-                                    MovePieceObject([Destination[0], 7], [Destination[0], 4]);
 
-                                    if (SelectedPiece.GetIsWhite())
+                                    if (Grid[Piece[0], Piece[1]].GetPieceType() != 'K')
                                     {
-                                        WhiteKingPosition = Destination;
-                                    }
-                                    else
-                                    {
-                                        BlackKingPosition = Destination;
+                                        MoveCounter--;
+                                        MovePieceObject([Destination[0], 7], [Destination[0], 4]);
+
+                                        if (SelectedPiece.GetIsWhite())
+                                        {
+                                            WhiteKingPosition = Destination;
+                                        }
+                                        else
+                                        {
+                                            BlackKingPosition = Destination;
+                                        }
                                     }
                                 }
                                 else
