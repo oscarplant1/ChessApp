@@ -14,19 +14,22 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
 using System;
 using System.Drawing;
+using System.Collections.Generic;
+using System.Security.Policy;
 
 ///<summary>
-///
+/// Window class used to display board objects and the pieces stored in them. Also used as a user-friendly 
+/// input to interact with board objects. 
 /// </summary>
-///<remarks>
-/// </remarks>
 
 namespace ChessApp
 {
     public partial class MainWindow : Window
     {
-        // Create the Board object
-        Board NewBoard = new Board();
+        /// <summary>
+        /// Board object that this class updates and displays
+        /// </summary>
+        private Board NewBoard = new Board();
 
         /// <summary>
         /// Updated whenever a button is clicked to the value of the X coordinate of the clicked square
@@ -50,7 +53,13 @@ namespace ChessApp
             UpdateBoard();
         }
 
-        //Creating image object for each piece, black and white
+        /// <summary>
+        /// There is a method for each piece of both colours
+        /// </summary>
+        /// <returns>
+        /// Image object with correct height and width attributes and an image source to the corresponding
+        /// piece image
+        /// </returns>
         private Image CreateBlackPawn()
         {
             Image BlackPawn = new Image();
@@ -171,7 +180,14 @@ namespace ChessApp
             return WhiteKing;
         }
 
-        //Function to convert hex code into brush colour
+
+        /// <summary>
+        /// Converts a hex code for a colour into a SolidColorBrush of the same colour
+        /// </summary>
+        /// <param Hex code of a colour="hexaColor"></param>
+        /// <returns>
+        /// SolidColorBrush object
+        /// </returns>
         public SolidColorBrush GetColorFromHexa(string hexaColor)
         {
             byte R = Convert.ToByte(hexaColor.Substring(1, 2), 16);
@@ -185,9 +201,12 @@ namespace ChessApp
 
 
 
-        //Setting up board//
+        //Setting up board
 
-        //Method to refresh the current board graphic
+        /// <summary>
+        /// Clears the predefined WPF grid then re-ads stack panels images and then buttons.
+        /// Also displays which colour moves next
+        /// </summary>
         public void UpdateBoard()
         {
             ClearBoard();
@@ -205,13 +224,17 @@ namespace ChessApp
             }
         }
 
-        //Clears the predefined 8x8 grid
+        /// <summary>
+        /// Clears predefined grid
+        /// </summary>
         public void ClearBoard()
         {
             MyBoard.Children.Clear();
         }
 
-        //Add coloured StackPanels to the predefined 8x8 grid
+        /// <summary>
+        /// Adds 64 stack panels one to each grid square coloured accordingly
+        /// </summary>
         private void AddStackPanels()
         {
             for (int i = 0; i < 8; i++)
@@ -247,7 +270,9 @@ namespace ChessApp
             }
         }
 
-        //Adds the predefined piece images to the board graphic
+        /// <summary>
+        /// Adds correct image to the grid
+        /// </summary>
         private void AddImages()
         {
             for (int i = 0; i < 8; i++)
@@ -322,7 +347,12 @@ namespace ChessApp
             }
         }
 
-        //Method used by AddImages() to add an image object to a chosen grid spot
+        /// <summary>
+        /// Used by AddImages to add the correct image type to the grid
+        /// </summary>
+        /// <param Create"piece" function for the correct piece type="MethodName"></param>
+        /// <param X coordinate where image is to be added="X"></param>
+        /// <param Y coordinate where image is to be added="Y"></param>
         public void AddImage(Func<Image> MethodName, int X, int Y)
         {
             StackPanel Stack = new StackPanel();
@@ -340,7 +370,10 @@ namespace ChessApp
             MyBoard.Children.Add(Stack);
         }
 
-        //Adds transparent buttons to every grid spot that all have a corresponding function below
+        /// <summary>
+        /// Adds transparent control buttons to the grid. Attatches the correct click attribute to link
+        /// to the correct square function
+        /// </summary>
         private void AddButtons()
         {
             for (int i = 0; i < 8; i++)
@@ -600,7 +633,9 @@ namespace ChessApp
             }
         }
 
-        //Update the window displaying if their is a winner
+        /// <summary>
+        /// Diplays to the window if there is a winner or if the game is drawn
+        /// </summary>
         private void DisplayOutcome()
         {
             if (NewBoard.WhiteinCheckmate())
@@ -624,6 +659,13 @@ namespace ChessApp
 
 
         //Pawn Promotion
+
+        /// <summary>
+        /// Locates a pawn at the top or bottom of the board
+        /// </summary>
+        /// <returns>
+        /// The coordinates of the pawn if found, otherwise returns [8,8]
+        /// </returns>
         public int[] findPromotedPawn()
         {
             for (int i = 0; i < 8; i++)
@@ -640,53 +682,15 @@ namespace ChessApp
             return [8, 8];
         }
 
-        private void Promote_to_Rook(object sender, RoutedEventArgs e)
-        {
-            Promotion_Grid.Children.Clear();
-            int[] pawn = findPromotedPawn();
-            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'R');
-            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
-            UpdateBoard();
-            BoardUnpaused = true;
-            NewBoard.updateIsChecking();
-            DisplayOutcome();
-        }
-
-        private void Promote_to_Knight(object sender, RoutedEventArgs e)
-        {
-            Promotion_Grid.Children.Clear();
-            int[] pawn = findPromotedPawn();
-            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'N');
-            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
-            UpdateBoard();
-            BoardUnpaused = true;
-            NewBoard.updateIsChecking();
-            DisplayOutcome();
-        }
-
-        private void Promote_to_Bishop(object sender, RoutedEventArgs e)
-        {
-            Promotion_Grid.Children.Clear();
-            int[] pawn = findPromotedPawn();
-            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'B');
-            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
-            UpdateBoard();
-            BoardUnpaused = true;
-            NewBoard.updateIsChecking();
-            DisplayOutcome();
-        }
-
-        private void Promote_to_Queen(object sender, RoutedEventArgs e)
-        {
-            Promotion_Grid.Children.Clear();
-            int[] pawn = findPromotedPawn();
-            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'Q');
-            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
-            UpdateBoard();
-            BoardUnpaused = true;
-            NewBoard.updateIsChecking();
-            DisplayOutcome();
-        }
+        /// <summary>
+        /// Creates and displays a set of buttons in the window for the user to select which piece they
+        /// want to promote the pawn to. Attatches the correct click attribute to each button in order
+        /// to link it to the correct Promote_to_"Piece" function. Button images are the same colour as
+        /// the promoted pawn
+        /// </summary>
+        /// <param X coordinate of the promoted pawn="X"></param>
+        /// <param Y coordinate of the promoted pawn="Y"></param>
+        /// <param Whether the pawn is white or black="IsWhite"></param>
         private void promotePawn(int X, int Y, bool IsWhite)
         {
             Button rook = new Button();
@@ -747,10 +751,80 @@ namespace ChessApp
         }
 
 
+        /// <summary>
+        /// Method that will convert a promoted pawn to a rook of the same colour and clear the selection
+        /// buttons when the rook button is clicked
+        /// </summary>
+        private void Promote_to_Rook(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'R');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
+            UpdateBoard();
+            BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
+        }
+
+        /// <summary>
+        /// Method that will convert a promoted pawn to a knight of the same colour and clear the selection
+        /// buttons when the knight button is clicked
+        /// </summary>
+        private void Promote_to_Knight(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'N');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
+            UpdateBoard();
+            BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
+        }
+
+        /// <summary>
+        /// Method that will convert a promoted pawn to a bishop of the same colour and clear the selection
+        /// buttons when the bishop button is clicked
+        /// </summary>
+        private void Promote_to_Bishop(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'B');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
+            UpdateBoard();
+            BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
+        }
+
+        /// <summary>
+        /// Method that will convert a promoted pawn to a queen of the same colour and clear the selection
+        /// buttons when the queen button is clicked
+        /// </summary>
+        private void Promote_to_Queen(object sender, RoutedEventArgs e)
+        {
+            Promotion_Grid.Children.Clear();
+            int[] pawn = findPromotedPawn();
+            NewBoard.SetPieceTypeAt(pawn[0], pawn[1], 'Q');
+            NewBoard.SetPromotedPawnAt(pawn[0], pawn[1], NewBoard.GetMoveCounter());
+            UpdateBoard();
+            BoardUnpaused = true;
+            NewBoard.updateIsChecking();
+            DisplayOutcome();
+        }
+
+
+
 
 
 
         //Control Buttons
+
+        /// <summary>
+        /// Linked to a predefined button in the window, flips the board
+        /// </summary>
         private void flip_board(object sender, RoutedEventArgs e)
         {
             if (BoardUnpaused)
@@ -760,6 +834,9 @@ namespace ChessApp
             }
         }
 
+        /// <summary>
+        /// Linked to a predefined button in the window, resets the board
+        /// </summary>
         private void reset_board(object sender, RoutedEventArgs e)
         {
             if (BoardUnpaused)
@@ -770,6 +847,10 @@ namespace ChessApp
             }
         }
 
+        /// <summary>
+        /// Linked to a predefined button in the window, undoes the last move, can be pressed until 
+        /// the board returns to starting position
+        /// </summary>
         private void Undo_Button(object sender, RoutedEventArgs e)
         {
             if (BoardUnpaused)
@@ -787,8 +868,17 @@ namespace ChessApp
 
 
 
-        //Button Control
-        //First button click sets PieceToMove, second calls MovePiece with PieceToMove and the last button click as parameters
+        //Square Button Control
+
+        /// <summary>
+        /// If PieceToMove for the current board is null ([8,8]) updates PieceToMove to the
+        /// last square clicked.If PieceToMove has a value, calls MovePiece on the current board
+        /// on PieceToMove and the square last clicked. Also avoids moving blank squares and pieces
+        /// taking pieces of the same colour. This is also where PromotePawn is called if a piece 
+        /// moves onto the last row
+        /// </summary>
+        /// <param X coordinate of the last square clicked="currentX"></param>
+        /// <param Y coordinate of the last square clicked="currentY"></param>
         private void ifSquareClicked(int currentX, int currentY)
         {
             if (BoardUnpaused)
@@ -837,11 +927,13 @@ namespace ChessApp
         }
 
 
+        //NEW COLUMN
 
-        //One method for each square that can be clicked
-
-        ///NEW COLUMN
-
+ 
+        /// <summary>
+        /// Function linked to the button on square [0,0]. Calls ifSquareClicked(0,0). There are 64 of
+        /// these functions, one for each square
+        /// </summary>
         private void zero_zero(object sender, RoutedEventArgs e)
         {
             currentX = 0;
@@ -898,7 +990,7 @@ namespace ChessApp
             ifSquareClicked(currentX, currentY);
         }
 
-        ///NEW COLUMN
+        //NEW COLUMN
         private void zero_one(object sender, RoutedEventArgs e)
         {
             currentX = 0;
@@ -955,7 +1047,7 @@ namespace ChessApp
             ifSquareClicked(currentX, currentY);
         }
 
-        ///NEW COLUMN
+        //NEW COLUMN
 
         private void zero_two(object sender, RoutedEventArgs e)
         {
@@ -1013,7 +1105,7 @@ namespace ChessApp
             ifSquareClicked(currentX, currentY);
         }
 
-        ///NEW COLUMN
+        //NEW COLUMN
 
         private void zero_three(object sender, RoutedEventArgs e)
         {
@@ -1071,7 +1163,7 @@ namespace ChessApp
             ifSquareClicked(currentX, currentY);
         }
 
-        ///NEW COLUMN
+        //NEW COLUMN
 
         private void zero_four(object sender, RoutedEventArgs e)
         {
@@ -1129,7 +1221,7 @@ namespace ChessApp
             ifSquareClicked(currentX, currentY);
         }
 
-        ///NEW COLUMN
+        //NEW COLUMN
 
         private void zero_five(object sender, RoutedEventArgs e)
         {
@@ -1187,7 +1279,7 @@ namespace ChessApp
             ifSquareClicked(currentX, currentY);
         }
 
-        ///NEW COLUMN
+        //NEW COLUMN
 
         private void zero_six(object sender, RoutedEventArgs e)
         {
@@ -1245,7 +1337,7 @@ namespace ChessApp
             ifSquareClicked(currentX, currentY);
         }
 
-        ///NEW COLUMN
+        //NEW COLUMN
 
         private void zero_seven(object sender, RoutedEventArgs e)
         {
