@@ -7,44 +7,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-///<summary>
-/// Simple class containing all the attributes required to make a chess piece
-/// </summary>
-///<remarks>
-/// </remarks>
-
 namespace Chess
 {
+    ///<summary>
+    /// Simple class containing all the attributes required to make a chess piece including: \n
+    /// Colour \n
+    /// Whether it is attacking the king of opposite colour \n
+    /// The piece type \n
+    /// How many moves the piece has done \n
+    /// Whether the piece used to be a pawn and was promoted
+    /// </summary>
     public class Piece(bool White, char Piece)
     {
         //Attributes
 
-        /// <summary>
-        /// Colour of the piece
-        /// </summary>
         private bool IsWhite = White;
 
-        /// <summary>
-        /// If the piece is attacking the king of the opposite colour
-        /// </summary>
         private bool IsChecking = false;
 
-        /// <summary>
-        /// 'X' = Blank, 'R' = Rook, 'N'= Knight, 'B' = Bishop, 'Q' = Queen, 'K' = King
-        /// </summary>
         private char PieceType = Piece;
 
-        /// <summary>
-        /// Tracks how many moves each piece has done. Needed for castling rules and pawn moves
-        /// </summary>
         private int MovesDone = 0;
 
-        /// <summary>
-        /// Flag for all pieces, set to 1 if a piece was previously a pawn
-        /// </summary>
         private int PromotedPawn = -1;
 
         //Get Methods
+
         public bool GetIsWhite()
         {
             return IsWhite;

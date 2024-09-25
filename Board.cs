@@ -12,15 +12,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-///<summary>
-/// Main class containing a grid of piece objects and methods that act on that grid to move pieces and apply
-/// the logic and rules of chess.
-/// </summary>
-///<remarks>
-/// </remarks>
-
 namespace Chess
 {
+    ///<summary>
+    /// Main class containing a grid of piece objects and methods that act on that grid to move pieces and apply
+    /// the logic and rules of chess.
+    /// </summary>
+    ///<remarks>
+    /// </remarks>
     public class Board
     {
         //Attributes
@@ -119,8 +118,6 @@ namespace Chess
         /// <summary>
         /// Returns true if at the given coordinates in the grid, the piecetype is blank
         /// </summary>
-        /// <param X coordinate ="X"></param>
-        /// <param Y coordinate ="Y"></param>
         /// <returns>
         /// Bool depending on Grid attribute
         /// </returns>
@@ -313,10 +310,9 @@ namespace Chess
 
 
         /// <summary>
-        /// Calls the movePieceObject method after checking if the move is allowed
+        /// Calls the movePieceObject method after checking if the move from the first pair of input coordinates to
+        /// the second pair of input coordinates is allowed
         /// </summary>
-        /// <param Piece to attempt to move="Piece"></param>
-        /// <param Square to attempt move to="Destination"></param>
         public void MovePiece(int[] Piece, int[] Destination)
         {
             int multiplier;
@@ -704,10 +700,9 @@ namespace Chess
         }
 
         /// <summary>
-        /// Moves the Piece in the grid from the first pair of coordinates to the second pair of coordinates
+        /// Moves the Piece in the grid from the first input pair of coordinates to the second input 
+        /// pair of coordinates
         /// </summary>
-        /// <param Square of piece to move="Piece"></param>
-        /// <param Square to move piece to="Destination"></param>
         public void MovePieceObject(int[] Piece, int[] Destination)
         {
             Piece SelectedPiece = Grid[Piece[0], Piece[1]];
@@ -1288,11 +1283,9 @@ namespace Chess
 
 
         /// <summary>
-        /// Returns false if there is a piece between the two pairs of coordinates, vertically
+        /// Returns false if there is a piece between the two pairs of input coordinates, vertically
         /// horizontally and diagonally
         /// </summary>
-        /// <param 1st pair of coordinates ="Piece"></param>
-        /// <param 2nd pair of coordinates ="Destination"></param>
         /// <returns>
         /// False if there is a piece between, true if not
         /// </returns>
@@ -1411,10 +1404,8 @@ namespace Chess
         }
 
         /// <summary>
-        /// Swaps two pieces in the grid
+        /// Swaps the two pieces in the grid at the two input pairs of coordinates
         /// </summary>
-        /// <param 1st Piece="Piece1"></param>
-        /// <param 2nd Piece="Piece2"></param>
         public void SwapPieces(int[] Piece1, int[] Piece2)
         {
             Piece temp = Grid[Piece1[0],Piece1[1]];

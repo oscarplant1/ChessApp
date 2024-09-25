@@ -1,0 +1,363 @@
+\doxysection{Chess\+App.\+Main\+Window Class Reference}
+\hypertarget{class_chess_app_1_1_main_window}{}\label{class_chess_app_1_1_main_window}\index{ChessApp.MainWindow@{ChessApp.MainWindow}}
+
+
+Window class used to display board objects and the pieces stored in them. Also used as a user-\/friendly input to interact with board objects.  
+
+
+Inheritance diagram for Chess\+App.\+Main\+Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_chess_app_1_1_main_window}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Solid\+Color\+Brush \mbox{\hyperlink{class_chess_app_1_1_main_window_a3000f8033dae8882c2f8162b450ecf8d}{Get\+Color\+From\+Hexa}} (string hexa\+Color)
+\begin{DoxyCompactList}\small\item\em Converts a hex code for a colour into a Solid\+Color\+Brush of the same colour. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_ac5e3c19aec13166293f86f6847bc4934}\label{class_chess_app_1_1_main_window_ac5e3c19aec13166293f86f6847bc4934} 
+void {\bfseries Update\+Board} ()
+\begin{DoxyCompactList}\small\item\em Clears the predefined WPF grid then re-\/ads stack panels images and then buttons. Also displays which colour moves next. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a646d6abb86420708b3263b553c306997}\label{class_chess_app_1_1_main_window_a646d6abb86420708b3263b553c306997} 
+void {\bfseries Clear\+Board} ()
+\begin{DoxyCompactList}\small\item\em Clears predefined grid. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a55333dbe5e391245212450067f64cdca}\label{class_chess_app_1_1_main_window_a55333dbe5e391245212450067f64cdca} 
+void {\bfseries Add\+Image} (Func$<$ Image $>$ Method\+Name, int X, int Y)
+\begin{DoxyCompactList}\small\item\em Used by Add\+Images to add the correct image type to the grid using the corresponding function and the coordinates where the image is to be added. \end{DoxyCompactList}\item 
+int\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_chess_app_1_1_main_window_af5f8c3d5dda79af3fd2ddfebfa3b9066}{find\+Promoted\+Pawn}} ()
+\begin{DoxyCompactList}\small\item\em Locates a pawn at the top or bottom of the board. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Image \mbox{\hyperlink{class_chess_app_1_1_main_window_a1cc4cac12f1c3bba4c671c270356ff2c}{Create\+Black\+Pawn}} ()
+\begin{DoxyCompactList}\small\item\em There is a method for each piece of both colours. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a00d5e7ad90fe9b91a9a8774d252fb972}\label{class_chess_app_1_1_main_window_a00d5e7ad90fe9b91a9a8774d252fb972} 
+Image {\bfseries Create\+Black\+Rook} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a1aa99075dde8f29c9a52e0648f719c0d}\label{class_chess_app_1_1_main_window_a1aa99075dde8f29c9a52e0648f719c0d} 
+Image {\bfseries Create\+Black\+Knight} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a924a78bbabef9d7c670ec6667b509b1d}\label{class_chess_app_1_1_main_window_a924a78bbabef9d7c670ec6667b509b1d} 
+Image {\bfseries Create\+Black\+Bishop} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a51a6c801b151c0b051ccb7fb1c50fd58}\label{class_chess_app_1_1_main_window_a51a6c801b151c0b051ccb7fb1c50fd58} 
+Image {\bfseries Create\+Black\+Queen} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a153667f73af204775dc22905cad79d9a}\label{class_chess_app_1_1_main_window_a153667f73af204775dc22905cad79d9a} 
+Image {\bfseries Create\+Black\+King} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a24341f99889815db6f1e8ff82c5b823a}\label{class_chess_app_1_1_main_window_a24341f99889815db6f1e8ff82c5b823a} 
+Image {\bfseries Create\+White\+Pawn} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a7eff3049984d6c77ea3b93fa8f83690d}\label{class_chess_app_1_1_main_window_a7eff3049984d6c77ea3b93fa8f83690d} 
+Image {\bfseries Create\+White\+Rook} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aed658177fc6f3f044493d97a908940ca}\label{class_chess_app_1_1_main_window_aed658177fc6f3f044493d97a908940ca} 
+Image {\bfseries Create\+White\+Knight} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a435cffdee68d4e1df7645e6adb63e10d}\label{class_chess_app_1_1_main_window_a435cffdee68d4e1df7645e6adb63e10d} 
+Image {\bfseries Create\+White\+Bishop} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a61b6bf20da07d750d95101b90ff5f9e4}\label{class_chess_app_1_1_main_window_a61b6bf20da07d750d95101b90ff5f9e4} 
+Image {\bfseries Create\+White\+Queen} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a60d9da299ab5fa226f9f4fdb716fcdd6}\label{class_chess_app_1_1_main_window_a60d9da299ab5fa226f9f4fdb716fcdd6} 
+Image {\bfseries Create\+White\+King} ()
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a087e5a506c0994f650cb2bb9cce5d7f0}\label{class_chess_app_1_1_main_window_a087e5a506c0994f650cb2bb9cce5d7f0} 
+void {\bfseries Add\+Stack\+Panels} ()
+\begin{DoxyCompactList}\small\item\em Adds 64 stack panels one to each grid square coloured accordingly. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a10af18306f10cb647f5ee487620f5084}\label{class_chess_app_1_1_main_window_a10af18306f10cb647f5ee487620f5084} 
+void {\bfseries Add\+Images} ()
+\begin{DoxyCompactList}\small\item\em Adds correct image to the grid. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a283707fd8a767df5c26929d63224279b}\label{class_chess_app_1_1_main_window_a283707fd8a767df5c26929d63224279b} 
+void {\bfseries Add\+Buttons} ()
+\begin{DoxyCompactList}\small\item\em Adds transparent control buttons to the grid. Attatches the correct click attribute to link to the correct square function. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a504802ee46a51da526f1451d84a700d4}\label{class_chess_app_1_1_main_window_a504802ee46a51da526f1451d84a700d4} 
+void {\bfseries Display\+Outcome} ()
+\begin{DoxyCompactList}\small\item\em Diplays to the window if there is a winner or if the game is drawn. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a8b57d74381b21cd72bc3201d8f31e50d}\label{class_chess_app_1_1_main_window_a8b57d74381b21cd72bc3201d8f31e50d} 
+void {\bfseries promote\+Pawn} (int X, int Y, bool Is\+White)
+\begin{DoxyCompactList}\small\item\em Creates and displays a set of buttons in the window for the user to select which piece they want to promote the pawn to. Attatches the correct click attribute to each button in order to link it to the correct Promote\+\_\+to\+\_\+"{}\+Piece"{} function. Button images are the same colour as the promoted pawn. Takes parameters for the location and colour of the pawn. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_aec76a84469f4c21800157f79f6162f77}\label{class_chess_app_1_1_main_window_aec76a84469f4c21800157f79f6162f77} 
+void {\bfseries Promote\+\_\+to\+\_\+\+Rook} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Method that will convert a promoted pawn to a rook of the same colour and clear the selection buttons when the rook button is clicked. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_aed87edcf9abee8130519f2d47001bb3d}\label{class_chess_app_1_1_main_window_aed87edcf9abee8130519f2d47001bb3d} 
+void {\bfseries Promote\+\_\+to\+\_\+\+Knight} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Method that will convert a promoted pawn to a knight of the same colour and clear the selection buttons when the knight button is clicked. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a0257731b7fcd05727a2ac2fab77f5a9f}\label{class_chess_app_1_1_main_window_a0257731b7fcd05727a2ac2fab77f5a9f} 
+void {\bfseries Promote\+\_\+to\+\_\+\+Bishop} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Method that will convert a promoted pawn to a bishop of the same colour and clear the selection buttons when the bishop button is clicked. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a37156059fbb8235d1aae0e7e39325d71}\label{class_chess_app_1_1_main_window_a37156059fbb8235d1aae0e7e39325d71} 
+void {\bfseries Promote\+\_\+to\+\_\+\+Queen} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Method that will convert a promoted pawn to a queen of the same colour and clear the selection buttons when the queen button is clicked. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a410a5d607338ae7bc5864d404da1310b}\label{class_chess_app_1_1_main_window_a410a5d607338ae7bc5864d404da1310b} 
+void {\bfseries flip\+\_\+board} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Linked to a predefined button in the window, flips the board. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a62ac7bb21d1167de2ca7ef2f93d313b9}\label{class_chess_app_1_1_main_window_a62ac7bb21d1167de2ca7ef2f93d313b9} 
+void {\bfseries reset\+\_\+board} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Linked to a predefined button in the window, resets the board. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a00c07d38b67530cb303997462307b889}\label{class_chess_app_1_1_main_window_a00c07d38b67530cb303997462307b889} 
+void {\bfseries Undo\+\_\+\+Button} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Linked to a predefined button in the window, undoes the last move, can be pressed until the board returns to starting position. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a800ec6aa37a448aa9acf6d8a0c722b84}\label{class_chess_app_1_1_main_window_a800ec6aa37a448aa9acf6d8a0c722b84} 
+void {\bfseries if\+Square\+Clicked} (int \mbox{\hyperlink{class_chess_app_1_1_main_window_a251b6bc46f498a4f9ca463e6d4180e55}{currentX}}, int \mbox{\hyperlink{class_chess_app_1_1_main_window_a2421acfefb348435a06388eb02addc82}{currentY}})
+\begin{DoxyCompactList}\small\item\em Takes as parameters the coordinates of the last square clicked. If Piece\+To\+Move for the current board is null (\mbox{[}8,8\mbox{]}) updates Piece\+To\+Move to the last square clicked.\+If Piece\+To\+Move has a value, calls Move\+Piece on the current board on Piece\+To\+Move and the square last clicked. Also avoids moving blank squares and pieces taking pieces of the same colour. This is also where Promote\+Pawn is called if a piece moves onto the last row. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a8aaf5861c05a91ec8bb57637c7d82801}\label{class_chess_app_1_1_main_window_a8aaf5861c05a91ec8bb57637c7d82801} 
+void {\bfseries zero\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Function linked to the button on square \mbox{[}0,0\mbox{]}. Calls if\+Square\+Clicked(0,0). There are 64 of these functions, one for each square. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a4ebfa219f3dd71cb7e8d99d7e34bf1e7}\label{class_chess_app_1_1_main_window_a4ebfa219f3dd71cb7e8d99d7e34bf1e7} 
+void {\bfseries one\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a450867e4c9ad673960a68dbf207ab481}\label{class_chess_app_1_1_main_window_a450867e4c9ad673960a68dbf207ab481} 
+void {\bfseries two\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ab0785a92bcab8119ff95ec3250650880}\label{class_chess_app_1_1_main_window_ab0785a92bcab8119ff95ec3250650880} 
+void {\bfseries three\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ae8cfed100bfd219ff60ca210a7c98360}\label{class_chess_app_1_1_main_window_ae8cfed100bfd219ff60ca210a7c98360} 
+void {\bfseries four\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aaa10340f53f836e243d68a42a4002853}\label{class_chess_app_1_1_main_window_aaa10340f53f836e243d68a42a4002853} 
+void {\bfseries five\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a88155306cb62473e9ec9c808ed524761}\label{class_chess_app_1_1_main_window_a88155306cb62473e9ec9c808ed524761} 
+void {\bfseries six\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_adf51e24953cd9dce3cbc6de4e418dee4}\label{class_chess_app_1_1_main_window_adf51e24953cd9dce3cbc6de4e418dee4} 
+void {\bfseries seven\+\_\+zero} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_abe3200a37fc3046f17167b581a1a13e6}\label{class_chess_app_1_1_main_window_abe3200a37fc3046f17167b581a1a13e6} 
+void {\bfseries zero\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_af1d0fd0faebcde91e262cf8926f2ca3e}\label{class_chess_app_1_1_main_window_af1d0fd0faebcde91e262cf8926f2ca3e} 
+void {\bfseries one\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a2551ea8f81844900a85f34f8a0a7c513}\label{class_chess_app_1_1_main_window_a2551ea8f81844900a85f34f8a0a7c513} 
+void {\bfseries two\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ad940f06cb327abfcff4b4e0a6a17adc1}\label{class_chess_app_1_1_main_window_ad940f06cb327abfcff4b4e0a6a17adc1} 
+void {\bfseries three\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_adc10ba3a6d4513a1940cb69835bb95e4}\label{class_chess_app_1_1_main_window_adc10ba3a6d4513a1940cb69835bb95e4} 
+void {\bfseries four\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_af61f3a631c9b89984ca6cd6586d0a279}\label{class_chess_app_1_1_main_window_af61f3a631c9b89984ca6cd6586d0a279} 
+void {\bfseries five\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_af03a645f23d468b875805a2355755e35}\label{class_chess_app_1_1_main_window_af03a645f23d468b875805a2355755e35} 
+void {\bfseries six\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aec85168dd4b73800b1d470d06f1d8bc9}\label{class_chess_app_1_1_main_window_aec85168dd4b73800b1d470d06f1d8bc9} 
+void {\bfseries seven\+\_\+one} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aa2913b8e4a5cf842590ff4f689b45474}\label{class_chess_app_1_1_main_window_aa2913b8e4a5cf842590ff4f689b45474} 
+void {\bfseries zero\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ab822eda364da8ee266df7f677fe7a97f}\label{class_chess_app_1_1_main_window_ab822eda364da8ee266df7f677fe7a97f} 
+void {\bfseries one\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a23bf13fa51ed9402375e0de4920df04c}\label{class_chess_app_1_1_main_window_a23bf13fa51ed9402375e0de4920df04c} 
+void {\bfseries two\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a06216b2ff057fb6feb266749866ef3b0}\label{class_chess_app_1_1_main_window_a06216b2ff057fb6feb266749866ef3b0} 
+void {\bfseries three\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_acb56b8a46f99509e3698756e7f76d195}\label{class_chess_app_1_1_main_window_acb56b8a46f99509e3698756e7f76d195} 
+void {\bfseries four\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ada6d278e0e63f97afdb9d1cc0a7928b6}\label{class_chess_app_1_1_main_window_ada6d278e0e63f97afdb9d1cc0a7928b6} 
+void {\bfseries five\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a91ec2dc5b150da5cee3236701bc49f9e}\label{class_chess_app_1_1_main_window_a91ec2dc5b150da5cee3236701bc49f9e} 
+void {\bfseries six\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aabebae42b0562f783705a5e9f7c45ebc}\label{class_chess_app_1_1_main_window_aabebae42b0562f783705a5e9f7c45ebc} 
+void {\bfseries seven\+\_\+two} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a31a72ae6c8825c76e3b51b99ad899484}\label{class_chess_app_1_1_main_window_a31a72ae6c8825c76e3b51b99ad899484} 
+void {\bfseries zero\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a15d3002634b03799e4b39d4e0210ecf1}\label{class_chess_app_1_1_main_window_a15d3002634b03799e4b39d4e0210ecf1} 
+void {\bfseries one\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a8b51e4f45f972402aba4ff928987993d}\label{class_chess_app_1_1_main_window_a8b51e4f45f972402aba4ff928987993d} 
+void {\bfseries two\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a9f7d3b5355021c671b5dba430caa5b89}\label{class_chess_app_1_1_main_window_a9f7d3b5355021c671b5dba430caa5b89} 
+void {\bfseries three\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a37496592f8efe98888bb8aa2df9748e3}\label{class_chess_app_1_1_main_window_a37496592f8efe98888bb8aa2df9748e3} 
+void {\bfseries four\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a72c62b0d1e0f3073cb26a9dd774fce44}\label{class_chess_app_1_1_main_window_a72c62b0d1e0f3073cb26a9dd774fce44} 
+void {\bfseries five\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a09d3cbd522fef696733d5478afdc0c34}\label{class_chess_app_1_1_main_window_a09d3cbd522fef696733d5478afdc0c34} 
+void {\bfseries six\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a211502dbab52088e679eedefaa55f9b9}\label{class_chess_app_1_1_main_window_a211502dbab52088e679eedefaa55f9b9} 
+void {\bfseries seven\+\_\+three} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a055101e8cf6311e2ab9b1f813c087205}\label{class_chess_app_1_1_main_window_a055101e8cf6311e2ab9b1f813c087205} 
+void {\bfseries zero\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a048df19de7730971965994919b458316}\label{class_chess_app_1_1_main_window_a048df19de7730971965994919b458316} 
+void {\bfseries one\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aa3cfefbdc3c304ae28c49d486fd23685}\label{class_chess_app_1_1_main_window_aa3cfefbdc3c304ae28c49d486fd23685} 
+void {\bfseries two\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aeafb02123879766e0287d796f1be53b5}\label{class_chess_app_1_1_main_window_aeafb02123879766e0287d796f1be53b5} 
+void {\bfseries three\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ae3caa805694b195a81b253b60264b00a}\label{class_chess_app_1_1_main_window_ae3caa805694b195a81b253b60264b00a} 
+void {\bfseries four\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ade81e066d92b10bd9627fe5c8e6721e7}\label{class_chess_app_1_1_main_window_ade81e066d92b10bd9627fe5c8e6721e7} 
+void {\bfseries five\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_adeafc4355605dfc79ea9afc5f7fe1364}\label{class_chess_app_1_1_main_window_adeafc4355605dfc79ea9afc5f7fe1364} 
+void {\bfseries six\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a39393fa7b15ae900112a9fda39276163}\label{class_chess_app_1_1_main_window_a39393fa7b15ae900112a9fda39276163} 
+void {\bfseries seven\+\_\+four} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ab59927b8e0d6402ebd092f76cd1c35c5}\label{class_chess_app_1_1_main_window_ab59927b8e0d6402ebd092f76cd1c35c5} 
+void {\bfseries zero\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a681aadffaf6c1060a7f7f51e60e23d02}\label{class_chess_app_1_1_main_window_a681aadffaf6c1060a7f7f51e60e23d02} 
+void {\bfseries one\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_abd1969ba4ea9883909f6cc213925ce99}\label{class_chess_app_1_1_main_window_abd1969ba4ea9883909f6cc213925ce99} 
+void {\bfseries two\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_afc6016c3c67ce3518392f7dad5f33ae3}\label{class_chess_app_1_1_main_window_afc6016c3c67ce3518392f7dad5f33ae3} 
+void {\bfseries three\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a6423e56197d279399258fc5a5c57a9d9}\label{class_chess_app_1_1_main_window_a6423e56197d279399258fc5a5c57a9d9} 
+void {\bfseries four\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a2fef061885039aa7f89019bdc37c8f95}\label{class_chess_app_1_1_main_window_a2fef061885039aa7f89019bdc37c8f95} 
+void {\bfseries five\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_af5869273924fc68083960849e32b27ac}\label{class_chess_app_1_1_main_window_af5869273924fc68083960849e32b27ac} 
+void {\bfseries six\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a5c01c343d1e7f490a697e601a6f6f308}\label{class_chess_app_1_1_main_window_a5c01c343d1e7f490a697e601a6f6f308} 
+void {\bfseries seven\+\_\+five} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a8492e470743e8cb91607c8f88e335733}\label{class_chess_app_1_1_main_window_a8492e470743e8cb91607c8f88e335733} 
+void {\bfseries zero\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a3d412acce40e3514d5ff9d91c5ce3ce0}\label{class_chess_app_1_1_main_window_a3d412acce40e3514d5ff9d91c5ce3ce0} 
+void {\bfseries one\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aa3817ceb6371b2c42bf3ce09038d8587}\label{class_chess_app_1_1_main_window_aa3817ceb6371b2c42bf3ce09038d8587} 
+void {\bfseries two\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aa834509c39bd0e6fbfd02212c270f735}\label{class_chess_app_1_1_main_window_aa834509c39bd0e6fbfd02212c270f735} 
+void {\bfseries three\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a21c5d74b555a0ba5c41aa1a76104d042}\label{class_chess_app_1_1_main_window_a21c5d74b555a0ba5c41aa1a76104d042} 
+void {\bfseries four\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_aed55fce2a4f21a09b2e0145fe97743a4}\label{class_chess_app_1_1_main_window_aed55fce2a4f21a09b2e0145fe97743a4} 
+void {\bfseries five\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a66c492c2e1494be6772af5c393d9ce1e}\label{class_chess_app_1_1_main_window_a66c492c2e1494be6772af5c393d9ce1e} 
+void {\bfseries six\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_ac28bf86e67d4ff8fa21c24da54997118}\label{class_chess_app_1_1_main_window_ac28bf86e67d4ff8fa21c24da54997118} 
+void {\bfseries seven\+\_\+six} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_acda7eedd50d142eea94fb1e89364a0f1}\label{class_chess_app_1_1_main_window_acda7eedd50d142eea94fb1e89364a0f1} 
+void {\bfseries zero\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a2fc869b48df3e1aabeaa481e3ca1e29b}\label{class_chess_app_1_1_main_window_a2fc869b48df3e1aabeaa481e3ca1e29b} 
+void {\bfseries one\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a58811b782c97cf9c871139c5f7a49f9b}\label{class_chess_app_1_1_main_window_a58811b782c97cf9c871139c5f7a49f9b} 
+void {\bfseries two\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a458c24b225e327c3431c4d455d149b5c}\label{class_chess_app_1_1_main_window_a458c24b225e327c3431c4d455d149b5c} 
+void {\bfseries three\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a0b1b50f1119ad28bc042205c4867df9e}\label{class_chess_app_1_1_main_window_a0b1b50f1119ad28bc042205c4867df9e} 
+void {\bfseries four\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a3c98dc3c78c753e7c5595504f54da79e}\label{class_chess_app_1_1_main_window_a3c98dc3c78c753e7c5595504f54da79e} 
+void {\bfseries five\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a740d6f9a31b28bd9a5b7dc14bc473e55}\label{class_chess_app_1_1_main_window_a740d6f9a31b28bd9a5b7dc14bc473e55} 
+void {\bfseries six\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a20a404a2d836fa3446a6ab7db8f55985}\label{class_chess_app_1_1_main_window_a20a404a2d836fa3446a6ab7db8f55985} 
+void {\bfseries seven\+\_\+seven} (object sender, Routed\+Event\+Args e)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_chess_app_1_1_main_window_a7af7c5fb158c485dbe055fbdd9aa7bb0}\label{class_chess_app_1_1_main_window_a7af7c5fb158c485dbe055fbdd9aa7bb0} 
+\mbox{\hyperlink{class_chess_1_1_board}{Board}} {\bfseries New\+Board} = new \mbox{\hyperlink{class_chess_1_1_board}{Board}}()
+\begin{DoxyCompactList}\small\item\em Board object that this class updates and displays. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a251b6bc46f498a4f9ca463e6d4180e55}\label{class_chess_app_1_1_main_window_a251b6bc46f498a4f9ca463e6d4180e55} 
+int {\bfseries currentX} = 0
+\begin{DoxyCompactList}\small\item\em Updated whenever a button is clicked to the value of the X coordinate of the clicked square. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a2421acfefb348435a06388eb02addc82}\label{class_chess_app_1_1_main_window_a2421acfefb348435a06388eb02addc82} 
+int {\bfseries currentY} = 0
+\begin{DoxyCompactList}\small\item\em Updated whenever a button is clicked to the value of the Y coordinate of the clicked square. \end{DoxyCompactList}\item 
+\Hypertarget{class_chess_app_1_1_main_window_a9a69f2f36453c87e4220385d0be115db}\label{class_chess_app_1_1_main_window_a9a69f2f36453c87e4220385d0be115db} 
+bool {\bfseries Board\+Unpaused} = true
+\begin{DoxyCompactList}\small\item\em Prevents any changes to the board if true. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Window class used to display board objects and the pieces stored in them. Also used as a user-\/friendly input to interact with board objects. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_chess_app_1_1_main_window_a1cc4cac12f1c3bba4c671c270356ff2c}\index{ChessApp.MainWindow@{ChessApp.MainWindow}!CreateBlackPawn@{CreateBlackPawn}}
+\index{CreateBlackPawn@{CreateBlackPawn}!ChessApp.MainWindow@{ChessApp.MainWindow}}
+\doxysubsubsection{\texorpdfstring{CreateBlackPawn()}{CreateBlackPawn()}}
+{\footnotesize\ttfamily \label{class_chess_app_1_1_main_window_a1cc4cac12f1c3bba4c671c270356ff2c} 
+Image Chess\+App.\+Main\+Window.\+Create\+Black\+Pawn (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+There is a method for each piece of both colours. 
+
+\begin{DoxyReturn}{Returns}
+Image object with correct height and width attributes and an image source to the corresponding piece image 
+\end{DoxyReturn}
+\Hypertarget{class_chess_app_1_1_main_window_af5f8c3d5dda79af3fd2ddfebfa3b9066}\index{ChessApp.MainWindow@{ChessApp.MainWindow}!findPromotedPawn@{findPromotedPawn}}
+\index{findPromotedPawn@{findPromotedPawn}!ChessApp.MainWindow@{ChessApp.MainWindow}}
+\doxysubsubsection{\texorpdfstring{findPromotedPawn()}{findPromotedPawn()}}
+{\footnotesize\ttfamily \label{class_chess_app_1_1_main_window_af5f8c3d5dda79af3fd2ddfebfa3b9066} 
+int\mbox{[}$\,$\mbox{]} Chess\+App.\+Main\+Window.\+find\+Promoted\+Pawn (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Locates a pawn at the top or bottom of the board. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates of the pawn if found, otherwise returns \mbox{[}8,8\mbox{]} 
+\end{DoxyReturn}
+\Hypertarget{class_chess_app_1_1_main_window_a3000f8033dae8882c2f8162b450ecf8d}\index{ChessApp.MainWindow@{ChessApp.MainWindow}!GetColorFromHexa@{GetColorFromHexa}}
+\index{GetColorFromHexa@{GetColorFromHexa}!ChessApp.MainWindow@{ChessApp.MainWindow}}
+\doxysubsubsection{\texorpdfstring{GetColorFromHexa()}{GetColorFromHexa()}}
+{\footnotesize\ttfamily \label{class_chess_app_1_1_main_window_a3000f8033dae8882c2f8162b450ecf8d} 
+Solid\+Color\+Brush Chess\+App.\+Main\+Window.\+Get\+Color\+From\+Hexa (\begin{DoxyParamCaption}\item[{string}]{hexa\+Color}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Converts a hex code for a colour into a Solid\+Color\+Brush of the same colour. 
+
+\begin{DoxyReturn}{Returns}
+Solid\+Color\+Brush object 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Main\+Window.\+xaml.\+cs\end{DoxyCompactItemize}

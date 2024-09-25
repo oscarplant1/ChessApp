@@ -17,13 +17,12 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Security.Policy;
 
-///<summary>
-/// Window class used to display board objects and the pieces stored in them. Also used as a user-friendly 
-/// input to interact with board objects. 
-/// </summary>
-
 namespace ChessApp
 {
+    ///<summary>
+    /// Window class used to display board objects and the pieces stored in them. Also used as a user-friendly 
+    /// input to interact with board objects. 
+    /// </summary>
     public partial class MainWindow : Window
     {
         /// <summary>
@@ -184,7 +183,6 @@ namespace ChessApp
         /// <summary>
         /// Converts a hex code for a colour into a SolidColorBrush of the same colour
         /// </summary>
-        /// <param Hex code of a colour="hexaColor"></param>
         /// <returns>
         /// SolidColorBrush object
         /// </returns>
@@ -348,11 +346,9 @@ namespace ChessApp
         }
 
         /// <summary>
-        /// Used by AddImages to add the correct image type to the grid
+        /// Used by AddImages to add the correct image type to the grid using the corresponding function and the
+        /// coordinates where the image is to be added
         /// </summary>
-        /// <param Create"piece" function for the correct piece type="MethodName"></param>
-        /// <param X coordinate where image is to be added="X"></param>
-        /// <param Y coordinate where image is to be added="Y"></param>
         public void AddImage(Func<Image> MethodName, int X, int Y)
         {
             StackPanel Stack = new StackPanel();
@@ -686,11 +682,8 @@ namespace ChessApp
         /// Creates and displays a set of buttons in the window for the user to select which piece they
         /// want to promote the pawn to. Attatches the correct click attribute to each button in order
         /// to link it to the correct Promote_to_"Piece" function. Button images are the same colour as
-        /// the promoted pawn
+        /// the promoted pawn. Takes parameters for the location and colour of the pawn
         /// </summary>
-        /// <param X coordinate of the promoted pawn="X"></param>
-        /// <param Y coordinate of the promoted pawn="Y"></param>
-        /// <param Whether the pawn is white or black="IsWhite"></param>
         private void promotePawn(int X, int Y, bool IsWhite)
         {
             Button rook = new Button();
@@ -871,14 +864,13 @@ namespace ChessApp
         //Square Button Control
 
         /// <summary>
+        /// Takes as parameters the coordinates of the last square clicked.
         /// If PieceToMove for the current board is null ([8,8]) updates PieceToMove to the
         /// last square clicked.If PieceToMove has a value, calls MovePiece on the current board
         /// on PieceToMove and the square last clicked. Also avoids moving blank squares and pieces
         /// taking pieces of the same colour. This is also where PromotePawn is called if a piece 
         /// moves onto the last row
         /// </summary>
-        /// <param X coordinate of the last square clicked="currentX"></param>
-        /// <param Y coordinate of the last square clicked="currentY"></param>
         private void ifSquareClicked(int currentX, int currentY)
         {
             if (BoardUnpaused)
