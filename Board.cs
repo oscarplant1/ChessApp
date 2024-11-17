@@ -411,6 +411,7 @@ namespace Chess
                                 {
                                     MovePieceObject(Piece, [Destination[0]+multiplier, Destination[1]]);
                                     MoveCounter--;
+                                    Grid[Destination[0], Destination[1]].SetMovesDone(Grid[Destination[0], Destination[1]].GetMovesDone() - 1);
                                     MovePieceObject([Destination[0]+multiplier, Destination[1]], Destination);
                                 }
                                 else

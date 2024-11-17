@@ -684,7 +684,7 @@ namespace ChessApp
         /// to link it to the correct Promote_to_"Piece" function. Button images are the same colour as
         /// the promoted pawn. Takes parameters for the location and colour of the pawn
         /// </summary>
-        private void promotePawn(int X, int Y, bool IsWhite)
+        private void promotePawn(bool IsWhite)
         {
             Button rook = new Button();
             Button knight = new Button();
@@ -906,7 +906,7 @@ namespace ChessApp
                     //If a pawn is now at the top of bottom of the board, it needs to be promoted
                     if (NewBoard.GetPieceTypeAt(currentX, currentY) == 'P' & (currentX == 0 || currentX == 7))
                     {
-                        promotePawn(currentX, currentY, NewBoard.GetIsWhiteAt(currentX, currentY));
+                        promotePawn(NewBoard.GetIsWhiteAt(currentX, currentY));
                         BoardUnpaused = false;
                     }
 
