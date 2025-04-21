@@ -2,7 +2,8 @@
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
 * text=auto
-*.tex linguist-detectable=false
+html/* linguist-documentation
+latex/* linguist-documentation
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
